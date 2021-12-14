@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Controller extends HttpServlet {
-
     private final CommandProvider commandProvider = new CommandProvider();
-    private static final String COMMAND_NAME = "a";
+    private static final String COMMAND_NAME = "command";
+
+    public Controller() {
+        super();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +27,7 @@ public class Controller extends HttpServlet {
         process(request, response);
     }
 
-    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Command command = commandProvider.getCommand(request.getParameter(COMMAND_NAME));
         command.execute(request, response);
     }
