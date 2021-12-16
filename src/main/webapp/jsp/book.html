@@ -1,5 +1,6 @@
 <div class="content__form">
-    <form action="" method="post">
+    <form action="lib" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="command" value="create_book">
         <div>
             <label for="nameRus">Name Rus</label>
             <input type="text" id="nameRus">
@@ -29,8 +30,15 @@
             <input type="text" id="pageCount">
         </div>
         <div>
-            <label for="bookImage">Images</label>
-            <input type="file" id="bookImage">
+            <label for="publishDate">Page Count</label>
+            <input type="date" id="publishDate">
+        </div>
+        <div>
+            <label for="file">Images</label>
+            <input multiple type="file" id="file" name="file" >
+        </div>
+        <div>
+            <button type="submit">Submit</button>
         </div>
     </form>
 </div>

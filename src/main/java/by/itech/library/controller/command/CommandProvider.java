@@ -1,5 +1,7 @@
 package by.itech.library.controller.command;
 
+import by.itech.library.controller.command.impl.BookForm;
+import by.itech.library.controller.command.impl.CreateBook;
 import by.itech.library.controller.command.impl.CreateReader;
 import by.itech.library.controller.command.impl.ReaderForm;
 
@@ -12,6 +14,8 @@ public class CommandProvider {
     public CommandProvider() {
         commands.put(ParameterName.CREATE_READER, new CreateReader());
         commands.put(ParameterName.READER_FORM, new ReaderForm());
+        commands.put(ParameterName.CREATE_BOOK, new CreateBook());
+        commands.put(ParameterName.BOOK_FORM, new BookForm());
     }
 
     public Command getCommand(String commandName) {

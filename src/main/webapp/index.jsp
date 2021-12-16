@@ -38,7 +38,7 @@
             <nav class="sidebar__menu">
                 <ul class="sidebar__list">
                     <li>
-                        <a href="" class="sidebar__link">Reg new book</a>
+                        <a href="lib?command=book_form" class="sidebar__link">Reg new book</a>
                     </li>
                     <li>
                         <a href="lib?command=reader_form" class="sidebar__link">Reg new reader</a>
@@ -58,9 +58,10 @@
                 <c:when test="${param.command == 'reader_form'}">
                     <jsp:include page="jsp/reader.jsp"/>
                 </c:when>
-                <c:when test="${param.command == 'create_reader'}">
-                    <jsp:include page="jsp/book.jsp"/>
+                <c:when test="${param.command == 'book_form'}">
+                    <jsp:include page="jsp/book.html"/>
                 </c:when>
+
             </c:choose>
         </section>
     </main>

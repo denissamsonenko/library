@@ -22,7 +22,6 @@ public class CreateReader implements Command {
         reader.setName(request.getParameter("name"));
         reader.setSurname(request.getParameter("surname"));
         reader.setMiddleName(request.getParameter("middleName"));
-//        reader.setCity(request.getParameter("city"));
         reader.setEmail(request.getParameter("email"));
         reader.setAddress(request.getParameter("address"));
         reader.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
