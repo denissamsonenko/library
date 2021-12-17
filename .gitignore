@@ -38,3 +38,4 @@ java/build/**
 /library.iml
 /src/main/resources/db.properties
 /src/main/resources/db
+/src/main/webapp/META-INF/

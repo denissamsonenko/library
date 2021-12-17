@@ -2,7 +2,8 @@ package by.itech.library.dao.impl;
 
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.ReaderDao;
-import by.itech.library.dao.pool.ConnectionPool;
+import by.itech.library.dao.pool.ConnectionBuilder;
+import by.itech.library.dao.pool.PoolConnection;
 import by.itech.library.model.Reader;
 
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ReaderDaoImpl implements ReaderDao {
-    private final ConnectionPool pool = ConnectionPool.getInstance();
+    private final ConnectionBuilder pool = new PoolConnection();
 
     private static final String CREATE_READER = "INSERT INTO readers " +
             "(name, surname, middle_name, passport, birth_date, email, address ) values (?,?,?,?,?,?,?)";
@@ -22,7 +23,7 @@ public class ReaderDaoImpl implements ReaderDao {
         PreparedStatement ps = null;
 
         try {
-            con = pool.takeConnection();
+            con = pool.getConnection();
             ps = con.prepareStatement(CREATE_READER);
 
             ps.setString(1, reader.getName());
@@ -37,8 +38,19 @@ public class ReaderDaoImpl implements ReaderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            if (ps != null) {
-                pool.closeConnection(con, ps);
+            if (con != null && ps != null) {
+                try {
+                    con.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if(ps !=null){
+                try {
+                    ps.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
     }
