@@ -1,9 +1,6 @@
 package by.itech.library.controller.command;
 
-import by.itech.library.controller.command.impl.BookForm;
-import by.itech.library.controller.command.impl.CreateBook;
-import by.itech.library.controller.command.impl.CreateReader;
-import by.itech.library.controller.command.impl.ReaderForm;
+import by.itech.library.controller.command.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +13,8 @@ public class CommandProvider {
         commands.put(ParameterName.READER_FORM, new ReaderForm());
         commands.put(ParameterName.CREATE_BOOK, new CreateBook());
         commands.put(ParameterName.BOOK_FORM, new BookForm());
+        commands.put(ParameterName.LIST_BOOK, new ListBook());
+        commands.put(ParameterName.SEND_GENRES, new SendGenres());
     }
 
     public Command getCommand(String commandName) {

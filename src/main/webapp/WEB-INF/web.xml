@@ -30,7 +30,7 @@
 
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/lib</url-pattern>
+        <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
     <resource-ref>

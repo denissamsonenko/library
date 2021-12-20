@@ -12,7 +12,7 @@ public class ReaderForm implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/reader.jsp");
         requestDispatcher.forward(request, response);
     }
 }

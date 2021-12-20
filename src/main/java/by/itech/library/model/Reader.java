@@ -1,9 +1,10 @@
 package by.itech.library.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Reader {
+public class Reader implements Serializable {
     private int readerId;
     private String name;
     private String surname;

@@ -4,5 +4,7 @@ public enum ParameterName {
     BOOK_FORM,
     CREATE_BOOK,
     READER_FORM,
-    CREATE_READER
+    CREATE_READER,
+    LIST_BOOK,
+    SEND_GENRES
 }

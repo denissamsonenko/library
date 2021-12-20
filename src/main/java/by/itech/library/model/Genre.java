@@ -1,12 +1,18 @@
 package by.itech.library.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Genre {
+public class Genre implements Serializable {
     private int genreId;
     private String genreName;
 
     public Genre() {
+    }
+
+    public Genre(int genreId, String genreName) {
+        this.genreId = genreId;
+        this.genreName = genreName;
     }
 
     public int getGenreId() {

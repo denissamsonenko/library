@@ -2,7 +2,6 @@ package by.itech.library.dao.impl;
 
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.ReaderDao;
-import by.itech.library.dao.pool.ConnectionBuilder;
 import by.itech.library.dao.pool.PoolConnection;
 import by.itech.library.model.Reader;
 
@@ -12,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ReaderDaoImpl implements ReaderDao {
-    private final ConnectionBuilder pool = new PoolConnection();
+    private final PoolConnection pool = PoolConnection.getInstance();
 
     private static final String CREATE_READER = "INSERT INTO readers " +
             "(name, surname, middle_name, passport, birth_date, email, address ) values (?,?,?,?,?,?,?)";
@@ -38,20 +37,7 @@ public class ReaderDaoImpl implements ReaderDao {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            if (con != null && ps != null) {
-                try {
-                    con.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-            if(ps !=null){
-                try {
-                    ps.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
+            pool.closeConnection(con, ps);
         }
     }
 }
