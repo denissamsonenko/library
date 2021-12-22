@@ -56,7 +56,7 @@
                             <label for="authors">Authors</label>
                             <input type="text" id="authors">
                         </div>
-                        <fieldset>
+                        <fieldset id="form__genres">
                             <legend>Choose Genre</legend>
                             <div>
                                 <input type="checkbox" id="genre" name="genre" class="input__label">
@@ -72,6 +72,7 @@
         </section>
     </main>
     <jsp:include page="parts/footer.jsp"/>
+    <script src="${pageContext.request.contextPath}/jsp/book.js"></script>
 </div>
 </body>
 </html>

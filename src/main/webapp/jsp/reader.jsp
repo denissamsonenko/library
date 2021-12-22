@@ -21,25 +21,25 @@
                     <form action="controller" method="post">
                         <input type="hidden" name="command" value="create_reader">
                         <div>
-                            <label for="surname">Surname</label>
-                            <input type="text" name="surname" id="surname">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" autocomplete="middleName">
                         </div>
                         <div>
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name">
+                            <label for="surname">Surname</label>
+                            <input type="text" name="surname" id="surname" autocomplete="surname">
                         </div>
                         <div>
                             <label for="middleName">Middle name</label>
-                            <input type="text" name="middleName" id="middleName">
+                            <input type="text" name="middleName" id="middleName" autocomplete="middleName">
                         </div>
                         <div>
                             <label for="passport">Passport</label>
-                            <input type="text" name="passport" id="passport">
+                            <input type="text" name="passport" id="passport" autocomplete="passport">
                         </div>
                         <div>
                             <label for="birthDate">BirthDate</label>
-                            <input type="date" name="birthDate" id="birthDate"
-                                   value="2021-01-01" min="1900-01-01" max="2022-12-31">
+                            <input type="date" name="birthDate" id="birthDate" autocomplete="birthDate"
+                                   value="2021-01-01" min="1900-01-01" max="2022-12-31" >
                         </div>
                         <div>
                             <label for="email">Email</label>
@@ -47,7 +47,7 @@
                         </div>
                         <div>
                             <label for="address">Address</label>
-                            <input type="text" name="address" id="address">
+                            <input type="text" name="address" id="address" autocomplete="new-password">
                         </div>
                         <div>
                             <button type="submit" class="button">Submit</button>
@@ -59,5 +59,6 @@
     </main>
     <jsp:include page="parts/footer.jsp"/>
 </div>
+<script src="${pageContext.request.contextPath}/jsp/reader_script.js"></script>
 </body>
 </html>
