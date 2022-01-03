@@ -19,13 +19,19 @@ public class CreateReader implements Command {
         ReaderService readerService = ServiceProvider.getInstance().getReaderService();
 
         Reader reader = new Reader();
+        if (!request.getParameter("middleName").equals("")) {
+            reader.setMiddleName(request.getParameter("middleName"));
+        }
+        if (!request.getParameter("address").equals("")) {
+            reader.setAddress(request.getParameter("address"));
+        }
+        if (!request.getParameter("passport").equals("")) {
+            reader.setPassport(request.getParameter("passport"));
+        }
+        reader.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
         reader.setName(request.getParameter("name"));
         reader.setSurname(request.getParameter("surname"));
-        reader.setMiddleName(request.getParameter("middleName"));
         reader.setEmail(request.getParameter("email"));
-        reader.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
-        reader.setAddress(request.getParameter("address"));
-        reader.setPassport(request.getParameter("passport"));
 
         try {
             readerService.createReader(reader);

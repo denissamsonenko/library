@@ -7,6 +7,8 @@ import by.itech.library.model.Reader;
 import by.itech.library.service.ReaderService;
 import by.itech.library.service.ServiceException;
 
+import java.util.List;
+
 public class ReaderServiceImpl implements ReaderService {
     private final ReaderDao readerDao = DaoProvider.getInstance().getReaderDao();
 
@@ -14,6 +16,15 @@ public class ReaderServiceImpl implements ReaderService {
     public void createReader(Reader reader) throws ServiceException {
         try {
             readerDao.createReader(reader);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<String> getAllEmail() throws ServiceException {
+        try {
+            return readerDao.getAllEmail();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

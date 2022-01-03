@@ -1,59 +1,64 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
+
     form.addEventListener('submit', createReader);
 
-
-    const pop = function (text) {
-        return function () {
-            this.nextElementSibling.innerText = `${text}`;
-            this.nextElementSibling.classList.toggle("show");
+    async function getEmail() {
+        try {
+            const response = await fetch('http://localhost:8081/lib/controller?command=send_email');
+            return await response.json();
+        } catch (error) {
+            console.log(error)
         }
     }
 
     async function createReader(e) {
         e.preventDefault();
-
-        let error = formValidate(form);
-
         let formData = new FormData(form);
 
-        if (error === 0) {
-            const response = await fetch('http://localhost:8081/lib/controller?command=create_reader', {
-                method: 'POST',
-                body: formData,
-            });
-            if (response.ok) {
-                const result = await response.text();
+        if (formValidate() === 0) {
+            try {
+                const response = await fetch('http://localhost:8081/lib/controller?command=create_reader', {
+                    method: 'POST',
+                    body: formData,
+                });
+            } catch (error) {
+                console.log(error)
+            } finally {
                 form.reset();
-            } else {
-                console.log('Error')
             }
-        } else {
-            console.log('Error')
         }
     }
 
-    function formValidate(form) {
+    function formValidate() {
         let error = 0;
         let formReq = document.querySelectorAll('._req');
 
         for (let i = 0; i < formReq.length; i++) {
             const input = formReq[i];
-            const text = ''
-            formRemoveError(input, text);
-
-            if (input.id === 'email') {
-                input.autocomplete = 'chrome-off';
-                input.display = 'none';
-                if (emailTest(input)) {
-                    const text = 'invalid email';
-                    formAddError(input, text)
-                    error++;
-                }
-            } else if (input.value === '') {
+            formRemoveError(input);
+            if (input.value === '') {
                 const text = 'field must not be empty';
-                formAddError(input, text)
+                formAddError(input, text);
                 error++;
+            } else {
+                switch (input.id) {
+                    case 'email':
+                        input.autocomplete = 'chrome-off';
+                        if (emailTest(input)) {
+                            const text = 'invalid email';
+                            formAddError(input, text)
+                            error++;
+
+                        } else if (getEmail().then(function (value) {
+                            return value.includes(input.value.trim().toUpperCase())
+                        })) {
+                            const text = 'Change email';
+                            formAddError(input, text)
+                            error++
+                        }
+                        break;
+                }
             }
         }
         return error;
@@ -62,17 +67,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function formAddError(input, text) {
         input.parentElement.classList.add('_error')
         input.classList.add('_error')
-        input.addEventListener('click', pop(text));
+        input.nextElementSibling.innerText = `${text}`;
+        input.nextElementSibling.classList.add('show');
     }
 
-    function formRemoveError(input, text) {
+    function formRemoveError(input) {
         input.parentElement.classList.remove('_error');
         input.classList.remove('_error');
-        input.removeEventListener('click', pop(text));
+        input.nextElementSibling.innerText = '';
+        input.nextElementSibling.classList.remove('show');
     }
 
     function emailTest(input) {
         return !/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(input.value);
     }
 })
-

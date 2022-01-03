@@ -10,8 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', sendBooks);
 
     async function getGenres() {
-        const response = await fetch('http://localhost:8081/lib/controller?command=send_genres');
-        return await response.json();
+        try {
+            const response = await fetch('http://localhost:8081/lib/controller?command=send_genres');
+            return await response.json();
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     (function renderGenre() {
@@ -70,18 +75,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function sendBooks(e) {
         e.preventDefault();
-
         let formData = new FormData(form);
-        let error = formValidate(form);
 
-        if (error === 0) {
-            const response = await fetch('http://localhost:8081/lib/controller?command=create_book', {
-                method: 'POST',
-                body: formData,
-            });
-            // form.reset()
-        } else {
-
+        if (formValidate() === 0) {
+            try{
+                const response = await fetch('http://localhost:8081/lib/controller?command=create_book', {
+                    method: 'POST',
+                    body: formData,
+                });
+            }catch (error) {
+                console.log(error)
+            }finally {
+                form.reset()
+            }
         }
     }
 
@@ -93,22 +99,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         for (let i = 0; i < formReq.length; i++) {
             const input = formReq[i];
-
+            formRemoveError(input);
             if (input.value.trim() === '') {
                 text = 'should not be empty';
                 formAddError(input, text);
                 error++;
             } else {
-                formRemoveError(input);
-
                 switch (input.id) {
                     case 'pricePerDay':
                         text = 'Wrong format (e.g. 1.01)';
                         if (!moneyTest(input)) {
                             formAddError(input, text);
                             error++;
-                        } else {
-                            formRemoveError(input);
                         }
                         break;
                     case 'price':
@@ -116,8 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (!moneyTest(input)) {
                             formAddError(input, text);
                             error++;
-                        } else {
-                            formRemoveError(input);
                         }
                         break;
                     case 'quantity':
@@ -125,8 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             text = 'can not be less then 0';
                             formAddError(input, text);
                             error++;
-                        } else {
-                            formRemoveError(input);
                         }
                         break;
                     case 'genre':
@@ -134,8 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             text = 'You should choose genre';
                             formAddError(input, text);
                             error++;
-                        } else {
-                            formRemoveError(input);
                         }
                         break;
                 }

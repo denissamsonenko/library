@@ -15,6 +15,7 @@ public class CommandProvider {
         commands.put(ParameterName.BOOK_FORM, new BookForm());
         commands.put(ParameterName.LIST_BOOK, new ListBook());
         commands.put(ParameterName.SEND_GENRES, new SendGenres());
+        commands.put(ParameterName.SEND_EMAIL, new SendEmail());
     }
 
     public Command getCommand(String commandName) {

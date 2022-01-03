@@ -6,5 +6,6 @@ public enum ParameterName {
     READER_FORM,
     CREATE_READER,
     LIST_BOOK,
-    SEND_GENRES
+    SEND_GENRES,
+    SEND_EMAIL,
 }

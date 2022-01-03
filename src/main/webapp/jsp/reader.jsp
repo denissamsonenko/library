@@ -32,20 +32,23 @@
                         </div>
                         <div>
                             <label for="middleName" class="label">Middle name</label>
-                            <input type="text" name="middleName" id="middleName" autocomplete="middleName" class="input">
+                            <input type="text" name="middleName" id="middleName" autocomplete="middleName"
+                                   class="input">
                         </div>
                         <div>
                             <label for="passport" class="label">Passport</label>
                             <input type="text" name="passport" id="passport" autocomplete="passport" class="input">
                         </div>
-                        <div>
-                            <label for="birthDate" class="label">BirthDate</label>
+                        <div class="input__pop">
+                            <label for="birthDate" class="label">BirthDate*</label>
                             <input type="date" name="birthDate" id="birthDate" autocomplete="birthDate"
-                                   value="2021-01-01" min="1920-01-01" max="2022-12-31" class="input">
+                                   min="1920-01-01" max="2022-12-31" class="input _req">
+                            <span class="popupError"></span>
                         </div>
                         <div class="input__pop">
                             <label for="email" class="label">Email*</label>
-                            <input type="email" name="email" id="email" placeholder="user@example.gov" class="input _req" >
+                            <input type="email" name="email" id="email" placeholder="user@example.gov"
+                                   class="input _req">
                             <span class="popupError"></span>
                         </div>
                         <div>

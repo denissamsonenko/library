@@ -114,4 +114,14 @@ public class PoolConnection {
             e.printStackTrace();
         }
     }
+
+    public void rollback(Connection connection) {
+        try {
+            if (connection != null) {
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
