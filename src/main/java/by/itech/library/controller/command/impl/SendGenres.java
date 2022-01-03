@@ -1,11 +1,11 @@
 package by.itech.library.controller.command.impl;
 
 import by.itech.library.controller.command.Command;
-import by.itech.library.controller.util.CustomMapper;
 import by.itech.library.model.Genre;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +25,9 @@ public class SendGenres implements Command {
             throw new ServletException(e);
         }
 
-        String json = CustomMapper
-                .getInstance()
-                .getObjectMapper()
-                .writeValueAsString(genres);
+        String json = new ObjectMapper().writeValueAsString(genres);
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Origin", "*");
         response.getWriter().write(json);
     }
 }

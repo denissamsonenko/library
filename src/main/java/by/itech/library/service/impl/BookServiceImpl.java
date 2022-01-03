@@ -14,9 +14,9 @@ public class BookServiceImpl implements BookService {
     private final BookDao bookDao = DaoProvider.getInstance().getBookDao();
 
     @Override
-    public void createBook(Book book, List<String> pictures, List<Genre> genresId) throws ServiceException {
+    public void createBook(Book book) throws ServiceException {
         try {
-            bookDao.createBook(book, pictures, genresId);
+            bookDao.createBook(book);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

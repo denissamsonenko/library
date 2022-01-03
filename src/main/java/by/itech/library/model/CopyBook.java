@@ -6,6 +6,7 @@ import java.util.Objects;
 public class CopyBook {
     private int id;
     private List<String> imageName;
+    private String status;
 
     public CopyBook() {
     }
@@ -26,18 +27,27 @@ public class CopyBook {
         this.imageName = imageName;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CopyBook copyBook = (CopyBook) o;
         return id == copyBook.id &&
-                imageName.equals(copyBook.imageName);
+                imageName.equals(copyBook.imageName) &&
+                status.equals(copyBook.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imageName);
+        return Objects.hash(id, imageName, status);
     }
 
     @Override
@@ -45,6 +55,7 @@ public class CopyBook {
         return "CopyBook{" +
                 "id=" + id +
                 ", imageName=" + imageName +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -18,36 +18,39 @@
                     <h2 class="content__header">Registration new reader</h2>
                 </div>
                 <div>
-                    <form action="controller" method="post">
+                    <form action="controller" method="post" novalidate>
                         <input type="hidden" name="command" value="create_reader">
-                        <div>
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" autocomplete="middleName">
+                        <div class="input__pop">
+                            <label for="name" class="label">Name*</label>
+                            <input type="text" name="name" id="name" autocomplete="middleName" class="input _req">
+                            <span class="popupError"></span>
+                        </div>
+                        <div class="input__pop">
+                            <label for="surname" class="label">Surname*</label>
+                            <input type="text" name="surname" id="surname" autocomplete="surname" class="input _req">
+                            <span class="popupError"></span>
                         </div>
                         <div>
-                            <label for="surname">Surname</label>
-                            <input type="text" name="surname" id="surname" autocomplete="surname">
+                            <label for="middleName" class="label">Middle name</label>
+                            <input type="text" name="middleName" id="middleName" autocomplete="middleName" class="input">
                         </div>
                         <div>
-                            <label for="middleName">Middle name</label>
-                            <input type="text" name="middleName" id="middleName" autocomplete="middleName">
+                            <label for="passport" class="label">Passport</label>
+                            <input type="text" name="passport" id="passport" autocomplete="passport" class="input">
                         </div>
                         <div>
-                            <label for="passport">Passport</label>
-                            <input type="text" name="passport" id="passport" autocomplete="passport">
-                        </div>
-                        <div>
-                            <label for="birthDate">BirthDate</label>
+                            <label for="birthDate" class="label">BirthDate</label>
                             <input type="date" name="birthDate" id="birthDate" autocomplete="birthDate"
-                                   value="2021-01-01" min="1900-01-01" max="2022-12-31" >
+                                   value="2021-01-01" min="1920-01-01" max="2022-12-31" class="input">
+                        </div>
+                        <div class="input__pop">
+                            <label for="email" class="label">Email*</label>
+                            <input type="email" name="email" id="email" placeholder="user@example.gov" class="input _req" >
+                            <span class="popupError"></span>
                         </div>
                         <div>
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder="user@example.gov">
-                        </div>
-                        <div>
-                            <label for="address">Address</label>
-                            <input type="text" name="address" id="address" autocomplete="new-password">
+                            <label for="address" class="label">Address</label>
+                            <input type="text" name="address" id="address" autocomplete="new-password" class="input">
                         </div>
                         <div>
                             <button type="submit" class="button">Submit</button>

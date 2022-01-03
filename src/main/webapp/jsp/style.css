@@ -119,56 +119,198 @@ ul {
 
 }
 
-input {
-    width: 40%;
+.input {
+    width: 30%;
     margin: 10px 5px;
     padding: 5px;
     font-size: 16px;
     box-sizing: border-box;
     border: 2px solid #000;
     border-radius: 10px;
-
+}
+.input._error{
+    box-shadow: 0 0 10px red;
 }
 
-input:focus {
-    background-color: antiquewhite;
+.input:focus {
+    background-color: #cdb497;
     border: 2px solid #555;
 }
 
-label {
+
+.popupError {
+    visibility: hidden;
+    width: auto;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 90%;
+    right: 65%;
+}
+
+.file__item {
+    display: inline-block;
+    position: relative;
+    margin: 10px 10px;
+}
+
+.file__book, .input__file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    font-size: 0;
+    cursor: pointer;
+}
+
+.file__button {
+    display: inline-flex;
+    min-height: 40px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    background-color: #6b757e;
+    padding: 0px 20px;
+}
+.file__button._error{
+    box-shadow: 0 0 10px red;
+}
+
+.popupError::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.popupError.show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.input__pop {
+    position: relative;
+}
+
+.label {
     display: block;
     float: left;
-    width: 100px;
+    width: 15%;
     margin: 10px;
     padding-top: 5px;
 }
 
-fieldset {
-    border: 2px groove #fff;
-    display: grid;
-    grid-template-columns: auto auto auto
+form {
+    display: flex;
+    flex-direction: column;
 }
 
 form > div, fieldset {
     margin: 10px 0px;
 }
 
-.input__label {
-    width: 40px;
-    margin: 0px;
-    padding: 0px;
-    font-size: 16px;
-    box-sizing: border-box;
-    border: 2px solid #000;
-    border-radius: 10px;
+fieldset {
+    border: 2px groove #fff;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 20px 0px;
+    padding: 10px 0px;
 }
 
-.label__checkbox {
-    display: inline;
-    float: none;
-    width: 0px;
-    margin: 0px;
-    padding: 0px;
+.container {
+    display: block;
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    display: none;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    margin-left: 15px;
+    background-color: #eee;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.checkmark._error {
+    box-shadow: 0 0 10px red;
 }
 
 .button {
@@ -214,6 +356,25 @@ form > div, fieldset {
     }
 }
 
+.add__element {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px 5px;
+}
+
+.delete__element {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px 5px 5px 10px;
+}
+
+.author__input_clone {
+    margin-left: 185px;
+    margin-right: 10px;
+}
+
 .footer {
     display: grid;
     grid-area: footer;
@@ -245,4 +406,8 @@ form > div, fieldset {
         grid-template: 1fr 1fr / 1fr;
         text-align: center;
     }
+}
+
+.error {
+    color: red;
 }

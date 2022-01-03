@@ -1,56 +1,78 @@
-const inputs = document.querySelectorAll('input');
-const form = document.querySelector('form');
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', createReader);
 
-form.addEventListener('submit', handleSubmit);
 
-function handleSubmit(event) {
-    event.preventDefault();
-    if (validate()) {
-        form.reset();
-        createReader({
-            name: form.name.value,
-            surname: form.surname.value,
-            middleName: form.middleName.value,
-            passport: form.passport.value,
-            birthDate: form.birthDate.value,
-            email: form.email.value,
-            address: form.address.value,
-        });
-    } else {
-        console.log("validate fail")
+    const pop = function (text) {
+        return function () {
+            this.nextElementSibling.innerText = `${text}`;
+            this.nextElementSibling.classList.toggle("show");
+        }
     }
 
-}
-// validate
-function validate() {
-    let isValid = true;
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            input.style.borderColor = 'red'
-            isValid = false;
+    async function createReader(e) {
+        e.preventDefault();
+
+        let error = formValidate(form);
+
+        let formData = new FormData(form);
+
+        if (error === 0) {
+            const response = await fetch('http://localhost:8081/lib/controller?command=create_reader', {
+                method: 'POST',
+                body: formData,
+            });
+            if (response.ok) {
+                const result = await response.text();
+                form.reset();
+            } else {
+                console.log('Error')
+            }
         } else {
-            input.style.borderColor = 'black'
+            console.log('Error')
         }
-    });
-    return isValid;
-}
-
-async function createReader(reader) {
-    try {
-        const response = await fetch('http://localhost:8081/lib/controller?command=create_reader', {
-            method: 'POST',
-            body: JSON.stringify(reader),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-            throw new Error(response.statusText)
-        }
-    } catch (error) {
-        //function
     }
-}
 
+    function formValidate(form) {
+        let error = 0;
+        let formReq = document.querySelectorAll('._req');
 
+        for (let i = 0; i < formReq.length; i++) {
+            const input = formReq[i];
+            const text = ''
+            formRemoveError(input, text);
+
+            if (input.id === 'email') {
+                input.autocomplete = 'chrome-off';
+                input.display = 'none';
+                if (emailTest(input)) {
+                    const text = 'invalid email';
+                    formAddError(input, text)
+                    error++;
+                }
+            } else if (input.value === '') {
+                const text = 'field must not be empty';
+                formAddError(input, text)
+                error++;
+            }
+        }
+        return error;
+    }
+
+    function formAddError(input, text) {
+        input.parentElement.classList.add('_error')
+        input.classList.add('_error')
+        input.addEventListener('click', pop(text));
+    }
+
+    function formRemoveError(input, text) {
+        input.parentElement.classList.remove('_error');
+        input.classList.remove('_error');
+        input.removeEventListener('click', pop(text));
+    }
+
+    function emailTest(input) {
+        return !/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(input.value);
+    }
+})
 
