@@ -16,17 +16,18 @@ public class BookDaoImpl implements BookDao {
     private final PoolConnection pool = PoolConnection.getInstance();
 
     private static final String CREATE_BOOK =
-            "INSERT INTO books (name_ru, name_origin, publish_date, price, price_per_day, quantity, reg_date, page_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO books (name_ru, name_origin, publish_date, price, price_per_day, quantity, reg_date, page_number) " +
+                    "VALUES (initcap(?), initcap(?), ?, ?, ?, ?, ?, ?)";
 
     private static final String BOOK_PICTURE_INSERT = "INSERT INTO book_img (name, id_book) VALUES (?, ?)";
 
     private static final String BOOK_GENRE_INSERT = "INSERT INTO book_genre (id_book, id_genre) VALUES (?, ?)";
 
-    private static final String AUTHOR_INSERT = "INSERT INTO authors (name, photo) VALUES (?, ?)";
+    private static final String AUTHOR_INSERT = "INSERT INTO authors (name, photo) VALUES (initcap(?), ?)";
 
     private static final String BOOK_AUTHOR_INSERT = "INSERT INTO book_author (id_book, id_author) VALUES (?,?)";
 
-    private static final String BOOK_COPY_INSERT = "INSERT INTO book_copy (id_book, status) VALUES (?,?)";
+    private static final String BOOK_COPY_INSERT = "INSERT INTO book_copy (id_book, status) VALUES (?,UPPER(?))";
 
     private static final String GET_ALL_GENRES = "SELECT * FROM genres";
 
@@ -80,9 +81,9 @@ public class BookDaoImpl implements BookDao {
             ps = con.prepareStatement(AUTHOR_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
             for (Author author : book.getAuthors()) {
                 ps.setString(1, author.getAuthorName());
-                if(!author.getPhotoAuthor().equals("")){
+                if (!author.getPhotoAuthor().equals("")) {
                     ps.setString(2, author.getPhotoAuthor());
-                } else{
+                } else {
                     ps.setNull(2, Types.VARCHAR);
                 }
                 ps.executeUpdate();
