@@ -3,7 +3,7 @@
     <nav class="header__menu">
         <ul class="header__list">
             <li>
-                <a href="" class="header__link">List Books</a>
+                <a href="controller?command=books_page" class="header__link">List Books</a>
             </li>
             <li>
                 <a href="" class="header__link">List Readers</a>

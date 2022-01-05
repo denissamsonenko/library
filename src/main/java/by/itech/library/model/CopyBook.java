@@ -1,9 +1,10 @@
 package by.itech.library.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class CopyBook {
+public class CopyBook implements Serializable {
     private int id;
     private List<String> imageName;
     private String status;

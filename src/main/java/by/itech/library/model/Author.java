@@ -1,8 +1,9 @@
 package by.itech.library.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Author {
+public class Author implements Serializable {
     private int authorId;
     private String authorName;
     private String photoAuthor;

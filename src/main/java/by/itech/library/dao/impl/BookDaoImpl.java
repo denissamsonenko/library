@@ -7,6 +7,7 @@ import by.itech.library.model.Author;
 import by.itech.library.model.Book;
 import by.itech.library.model.CopyBook;
 import by.itech.library.model.Genre;
+import by.itech.library.model.dto.BookDto;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class BookDaoImpl implements BookDao {
     private static final String BOOK_COPY_INSERT = "INSERT INTO book_copy (id_book, status) VALUES (?,UPPER(?))";
 
     private static final String GET_ALL_GENRES = "SELECT * FROM genres";
+
+    private static final String GET_ALL_BOOK = "SELECT b.id_book, b.name_ru, b.publish_date, b.quantity, COUNT(bc.*) as available_book, " +
+            "(SELECT array_agg(name_genre) FROM genres as gen JOIN book_genre as bg on gen.id_genre=bg.id_genre where bg.id_book=b.id_book) as genres " +
+            "FROM books as b JOIN book_copy as bc on (b.id_book=bc.id_book) WHERE bc.status='FREE' GROUP BY b.id_book";
 
     @Override
     public void createBook(Book book) throws DaoException {
@@ -146,13 +151,54 @@ public class BookDaoImpl implements BookDao {
 
             return genres;
         } catch (SQLException e) {
-            try {
-                if (con != null) {
-                    con.rollback();
+            pool.rollback(con);
+            throw new DaoException(e);
+        } finally {
+            pool.closeConnection(con, st, rs);
+        }
+    }
+
+    @Override
+    public List<BookDto> getAllBook() throws DaoException {
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+
+        try {
+            List<BookDto> bookDtoList = new ArrayList<>();
+
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+
+            st = con.createStatement();
+            rs = st.executeQuery(GET_ALL_BOOK);
+
+            while (rs.next()) {
+                BookDto bookDto = new BookDto();
+                List<Genre> genreList = new ArrayList<>();
+                bookDto.setBookId(rs.getInt(1));
+                bookDto.setNameRus(rs.getString(2));
+                if (rs.getDate(3) != null) {
+                    bookDto.setPublishDate(rs.getDate(3).toLocalDate());
                 }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                bookDto.setQuantity(rs.getInt(4));
+                bookDto.setAvailableBook(rs.getInt(5));
+
+                for (String s : (String[]) rs.getArray(6).getArray()) {
+                    Genre genre = new Genre();
+                    genre.setGenreName(s);
+                    genreList.add(genre);
+                }
+                bookDto.setGenres(genreList);
+                bookDtoList.add(bookDto);
             }
+
+            con.commit();
+            con.setAutoCommit(true);
+
+            return bookDtoList;
+        } catch (SQLException e) {
+            pool.rollback(con);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, st, rs);

@@ -13,9 +13,10 @@ public class CommandProvider {
         commands.put(ParameterName.READER_FORM, new ReaderForm());
         commands.put(ParameterName.CREATE_BOOK, new CreateBook());
         commands.put(ParameterName.BOOK_FORM, new BookForm());
-        commands.put(ParameterName.LIST_BOOK, new ListBook());
+        commands.put(ParameterName.BOOKS_PAGE, new BookPage());
         commands.put(ParameterName.SEND_GENRES, new SendGenres());
         commands.put(ParameterName.SEND_EMAIL, new SendEmail());
+        commands.put(ParameterName.LIST_BOOK, new ListBook());
     }
 
     public Command getCommand(String commandName) {
