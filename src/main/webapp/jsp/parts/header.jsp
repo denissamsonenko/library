@@ -6,7 +6,7 @@
                 <a href="controller?command=book_list_page" class="header__link">List Books</a>
             </li>
             <li>
-                <a href="" class="header__link">List Readers</a>
+                <a href="controller?command=reader_list_page" class="header__link">List Readers</a>
             </li>
             <li>
                 <a href="" class="header__link">Write-off Book</a>

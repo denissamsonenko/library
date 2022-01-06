@@ -29,4 +29,13 @@ public class ReaderServiceImpl implements ReaderService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public List<Reader> getAllReader() throws ServiceException {
+        try {
+            return readerDao.getAllReader();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

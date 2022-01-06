@@ -38,5 +38,7 @@ public class CreateReader implements Command {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
+
+        // TODO: should be redirect? Because after creation remain data?
     }
 }

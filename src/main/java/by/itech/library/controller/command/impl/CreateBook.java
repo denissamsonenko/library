@@ -53,6 +53,8 @@ public class CreateBook implements Command {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
+
+        // TODO: should be redirect? Because after creation remain data?
     }
 
     private List<CopyBook> getCopyBooks(Book book) {
@@ -67,10 +69,10 @@ public class CreateBook implements Command {
 
     private List<Genre> getGenres(HttpServletRequest request) {
         return Arrays.stream(request.getParameterValues("genre")).map(value -> {
-                Genre genre = new Genre();
-                genre.setGenreId(Integer.parseInt(value));
-                return genre;
-            }).collect(Collectors.toList());
+            Genre genre = new Genre();
+            genre.setGenreId(Integer.parseInt(value));
+            return genre;
+        }).collect(Collectors.toList());
     }
 
     private List<Author> getAuthors(HttpServletRequest request) throws IOException, ServletException {

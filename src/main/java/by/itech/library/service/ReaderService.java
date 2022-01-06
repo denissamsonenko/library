@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface ReaderService {
     void createReader(Reader reader) throws ServiceException;
+
     List<String> getAllEmail() throws ServiceException;
+    List<Reader> getAllReader() throws ServiceException;
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandProvider {
-    private Map<ParameterName, Command> commands = new HashMap<>();
+    private final Map<ParameterName, Command> commands = new HashMap<>();
 
     public CommandProvider() {
         commands.put(ParameterName.CREATE_READER, new CreateReader());
@@ -16,7 +16,9 @@ public class CommandProvider {
         commands.put(ParameterName.BOOK_LIST_PAGE, new ListBookPage());
         commands.put(ParameterName.SEND_GENRES, new SendGenres());
         commands.put(ParameterName.SEND_EMAIL, new SendEmail());
-        commands.put(ParameterName.LIST_BOOK, new ListBook());
+        commands.put(ParameterName.LIST_BOOK, new SendListBook());
+        commands.put(ParameterName.READER_LIST_PAGE, new ReaderListPage());
+        commands.put(ParameterName.SEND_LIST_READER, new SendListReader());
     }
 
     public Command getCommand(String commandName) {

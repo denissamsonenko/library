@@ -15,6 +15,7 @@ public class ReaderDaoImpl implements ReaderDao {
     private static final String CREATE_READER = "INSERT INTO readers " +
             "(name, surname, middle_name, passport, birth_date, email, address ) values (initcap(?),initcap(?),initcap(?),UPPER(?),?,UPPER(?),?)";
     private static final String GET_ALL_EMAIL = "SELECT email FROM readers";
+    private static final String GET_ALL_READER = "SELECT id_reader, name, surname, birth_date, email, address FROM readers";
 
     @Override
     public void createReader(Reader reader) throws DaoException {
@@ -73,6 +74,43 @@ public class ReaderDaoImpl implements ReaderDao {
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, st, rs);
+        }
+    }
+
+    @Override
+    public List<Reader> getAllReader() throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            List<Reader> readerList = new ArrayList<>();
+
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(GET_ALL_READER);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Reader reader = new Reader();
+                reader.setReaderId(rs.getInt(1));
+                reader.setName(rs.getString(2));
+                reader.setSurname(rs.getString(3));
+                reader.setBirthDate(rs.getDate(4).toLocalDate());
+                reader.setEmail(rs.getString(5));
+                reader.setAddress(rs.getString(6));
+                readerList.add(reader);
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+
+            return readerList;
+        } catch (SQLException e) {
+            pool.rollback(con);
+            throw new DaoException(e);
+        } finally {
+            pool.closeConnection(con, ps, rs);
         }
     }
 }

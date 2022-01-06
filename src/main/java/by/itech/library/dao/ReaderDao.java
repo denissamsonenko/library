@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface ReaderDao {
     void createReader(Reader reader) throws DaoException;
-    List<String> getAllEmail() throws  DaoException;
+
+    List<String> getAllEmail() throws DaoException;
+
+    List<Reader> getAllReader() throws DaoException;
 }
