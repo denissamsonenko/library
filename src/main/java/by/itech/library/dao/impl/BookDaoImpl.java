@@ -189,6 +189,7 @@ public class BookDaoImpl implements BookDao {
                     genre.setGenreName(s);
                     genreList.add(genre);
                 }
+
                 bookDto.setGenres(genreList);
                 bookDtoList.add(bookDto);
             }

@@ -1,11 +1,11 @@
 package by.itech.library.controller.command;
 
 public enum ParameterName {
-    BOOK_FORM,
+    BOOK_ADD_PAGE,
     CREATE_BOOK,
-    READER_FORM,
+    READER_ADD_PAGE,
     CREATE_READER,
-    BOOKS_PAGE,
+    BOOK_LIST_PAGE,
     SEND_GENRES,
     SEND_EMAIL,
     LIST_BOOK,

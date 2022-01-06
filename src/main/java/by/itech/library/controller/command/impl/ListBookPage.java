@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ReaderForm implements Command {
-
+public class ListBookPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/reader.jsp");
-        requestDispatcher.forward(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("jsp/main.jsp");
+        rd.forward(request, response);
     }
 }

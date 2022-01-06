@@ -8,6 +8,6 @@
     <title>Index</title>
 </head>
 <body>
-<div><c:redirect url = "controller?command=books_page"/></div>
+<div><c:redirect url = "controller?command=book_list_page"/></div>
 </body>
 </html>

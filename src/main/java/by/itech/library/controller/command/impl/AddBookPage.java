@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class BookPage implements Command {
+public class AddBookPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher rd = request.getRequestDispatcher("jsp/main.jsp");
-        rd.forward(request, response);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/book.jsp");
+        requestDispatcher.forward(request, response);
     }
 }
