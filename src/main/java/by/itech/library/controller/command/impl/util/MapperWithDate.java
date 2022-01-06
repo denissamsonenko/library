@@ -8,13 +8,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class CustomMapper {
-    private static final CustomMapper instance = new CustomMapper();
+public class MapperWithDate {
+    private static final MapperWithDate instance = new MapperWithDate();
     private final ObjectMapper objectMapper;
     private final static String DATE_FORMAT = "yyyy-MM-dd";
 
 
-    public CustomMapper() {
+    public MapperWithDate() {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addDeserializer(LocalDate.class,
                 new LocalDateDeserializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
@@ -24,7 +24,7 @@ public class CustomMapper {
         objectMapper.registerModule(javaTimeModule);
     }
 
-    public static CustomMapper getInstance() {
+    public static MapperWithDate getInstance() {
         return instance;
     }
 

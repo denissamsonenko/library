@@ -1,7 +1,7 @@
 package by.itech.library.controller.command.impl;
 
 import by.itech.library.controller.command.Command;
-import by.itech.library.controller.command.impl.util.CustomMapper;
+import by.itech.library.controller.command.impl.util.MapperWithDate;
 import by.itech.library.model.dto.BookDto;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
@@ -25,7 +25,7 @@ public class ListBook implements Command {
             throw new ServletException(e);
         }
 
-        String json = CustomMapper.getInstance()
+        String json = MapperWithDate.getInstance()
                 .getObjectMapper()
                 .writeValueAsString(bookDtoList);
         response.getWriter().write(json);
