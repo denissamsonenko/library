@@ -1,4 +1,4 @@
-package by.itech.library.controller.command.impl;
+package by.itech.library.controller.command.readerimpl;
 
 import by.itech.library.controller.command.Command;
 

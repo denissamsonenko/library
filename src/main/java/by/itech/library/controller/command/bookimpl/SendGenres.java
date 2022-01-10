@@ -1,7 +1,8 @@
-package by.itech.library.controller.command.impl;
+package by.itech.library.controller.command.bookimpl;
 
 import by.itech.library.controller.command.Command;
-import by.itech.library.service.ReaderService;
+import by.itech.library.model.Genre;
+import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,19 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class SendEmail implements Command {
+public class SendGenres implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        ReaderService readerService = ServiceProvider.getInstance().getReaderService();
+        BookService bookService = ServiceProvider.getInstance().getBookService();
 
-        List<String> emails;
+        List<Genre> genres;
         try {
-            emails = readerService.getAllEmail();
+            genres = bookService.getAllGenre();
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
 
-        String json = new ObjectMapper().writeValueAsString(emails);
+        String json = new ObjectMapper().writeValueAsString(genres);
+
+//        response.setHeader("Access-Control-Allow-Origin", "*");
         response.getWriter().write(json);
     }
 }

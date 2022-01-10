@@ -1,9 +1,9 @@
-package by.itech.library.controller.command.impl;
+package by.itech.library.controller.command.readerimpl;
 
 import by.itech.library.controller.command.Command;
-import by.itech.library.controller.command.impl.util.MapperWithDate;
-import by.itech.library.model.dto.BookDto;
-import by.itech.library.service.BookService;
+import by.itech.library.controller.util.MapperWithDate;
+import by.itech.library.model.Reader;
+import by.itech.library.service.ReaderService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
 
@@ -13,21 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class SendListBook implements Command {
+public class SendListReader implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        BookService bookService = ServiceProvider.getInstance().getBookService();
+        ReaderService readerService = ServiceProvider.getInstance().getReaderService();
 
-        List<BookDto> bookDtoList;
+        int offset = Integer.parseInt(request.getParameter("offset"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+        String sort = request.getParameter("sort");
+
+        List<Reader> readerList;
         try {
-            bookDtoList = bookService.getAllBook();
+            readerList = readerService.getAllReader(limit, offset, sort);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
 
         String json = MapperWithDate.getInstance()
                 .getObjectMapper()
-                .writeValueAsString(bookDtoList);
+                .writeValueAsString(readerList);
+
         response.getWriter().write(json);
+
     }
 }

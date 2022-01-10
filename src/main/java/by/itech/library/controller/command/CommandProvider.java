@@ -1,6 +1,7 @@
 package by.itech.library.controller.command;
 
-import by.itech.library.controller.command.impl.*;
+import by.itech.library.controller.command.bookimpl.*;
+import by.itech.library.controller.command.readerimpl.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class CommandProvider {
         commands.put(ParameterName.LIST_BOOK, new SendListBook());
         commands.put(ParameterName.READER_LIST_PAGE, new ReaderListPage());
         commands.put(ParameterName.SEND_LIST_READER, new SendListReader());
+        commands.put(ParameterName.SEND_COUNT_READER, new SendCountReader());
     }
 
     public Command getCommand(String commandName) {

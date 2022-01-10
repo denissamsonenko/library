@@ -1,4 +1,4 @@
-package by.itech.library.controller.command.impl.util;
+package by.itech.library.controller.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

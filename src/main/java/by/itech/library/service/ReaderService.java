@@ -8,5 +8,8 @@ public interface ReaderService {
     void createReader(Reader reader) throws ServiceException;
 
     List<String> getAllEmail() throws ServiceException;
-    List<Reader> getAllReader() throws ServiceException;
+
+    List<Reader> getAllReader(int limit, int offset, String sort) throws ServiceException;
+
+    Integer getCountReader() throws ServiceException;
 }

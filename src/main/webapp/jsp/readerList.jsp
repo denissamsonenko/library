@@ -17,7 +17,27 @@
               <div class="content__header">
                   <h2>List readers table</h2>
               </div>
+              <table class="content__table">
+                  <thead class="table__head">
+                  <tr>
+                      <th class="surname">Surname</th>
+                      <th>Name</th>
+                      <th>Birth Date</th>
+                      <th>Address</th>
+                      <th>Email</th>
+                  </tr>
+                  </thead>
+                  <tbody class="table__content">
 
+                  </tbody>
+              </table>
+              <div class="content__pagination">
+                  <ul class="pagination__items">
+<%--                      <li class="pagination__item">1</li>--%>
+<%--                      <li class="pagination__item">2</li>--%>
+<%--                      <li class="pagination__item">3</li>--%>
+                  </ul>
+              </div>
           </div>
         </section>
     </main>

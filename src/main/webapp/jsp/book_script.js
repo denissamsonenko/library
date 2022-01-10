@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
     const genresList = document.getElementById('form__genres');
     const spanPlus = document.querySelector('.add__element');
     const inputAuthor = document.querySelector('.author__input');
@@ -6,24 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const authorForm = document.querySelector('.author__form');
     const form = document.querySelector('form');
 
+    document.addEventListener('DOMContentLoaded', init);
     spanPlus.addEventListener('click', addAuthorField);
     form.addEventListener('submit', sendBooks);
-
-    async function getGenres() {
-        try {
-            const response = await fetch('http://localhost:8081/lib/controller?command=send_genres');
-            return await response.json();
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
-    (function renderGenre() {
-        getGenres().then(value => {
-            value.forEach(genre => printGenres(genre))
-        })
-    })()
 
     function printGenres({genreId, genreName}) {
         const label = document.createElement('label');
@@ -78,14 +63,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let formData = new FormData(form);
 
         if (formValidate() === 0) {
-            try{
+            try {
                 const response = await fetch('http://localhost:8081/lib/controller?command=create_book', {
                     method: 'POST',
                     body: formData,
                 });
-            }catch (error) {
+            } catch (error) {
                 console.log(error)
-            }finally {
+            } finally {
                 form.reset()
             }
         }
@@ -181,4 +166,21 @@ document.addEventListener('DOMContentLoaded', function () {
         input.parentElement.classList.remove('_error');
         input.classList.remove('_error');
     }
-})
+
+    function init() {
+        getGenres().then(value => {
+            value.forEach(genre => printGenres(genre))
+        })
+    }
+
+    async function getGenres() {
+        try {
+            const response = await fetch('http://localhost:8081/lib/controller?command=send_genres');
+            if(response.ok){
+                return await response.json();
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+})()

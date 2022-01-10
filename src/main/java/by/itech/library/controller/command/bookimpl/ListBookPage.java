@@ -1,4 +1,4 @@
-package by.itech.library.controller.command.impl;
+package by.itech.library.controller.command.bookimpl;
 
 import by.itech.library.controller.command.Command;
 
@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ReaderListPage implements Command {
+public class ListBookPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher rd = request.getRequestDispatcher("jsp/readerList.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("jsp/main.jsp");
         rd.forward(request, response);
     }
 }

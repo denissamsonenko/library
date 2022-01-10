@@ -31,9 +31,18 @@ public class ReaderServiceImpl implements ReaderService {
     }
 
     @Override
-    public List<Reader> getAllReader() throws ServiceException {
+    public List<Reader> getAllReader(int limit, int offset, String sort) throws ServiceException {
         try {
-            return readerDao.getAllReader();
+            return readerDao.getAllReader(limit, offset, sort);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Integer getCountReader() throws ServiceException {
+        try {
+            return readerDao.getCountReader();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

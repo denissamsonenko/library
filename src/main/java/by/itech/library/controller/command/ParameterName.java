@@ -10,5 +10,6 @@ public enum ParameterName {
     SEND_GENRES,
     SEND_EMAIL,
     LIST_BOOK,
-    SEND_LIST_READER
+    SEND_LIST_READER,
+    SEND_COUNT_READER
 }

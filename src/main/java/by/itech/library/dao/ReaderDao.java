@@ -9,5 +9,7 @@ public interface ReaderDao {
 
     List<String> getAllEmail() throws DaoException;
 
-    List<Reader> getAllReader() throws DaoException;
+    List<Reader> getAllReader(int limit, int offset, String sort) throws DaoException;
+
+    Integer getCountReader() throws DaoException;
 }

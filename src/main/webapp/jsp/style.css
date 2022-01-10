@@ -119,6 +119,10 @@ ul {
 
 }
 
+.content__header {
+    text-align: center;
+}
+
 .input {
     width: 30%;
     margin: 10px 5px;
@@ -128,7 +132,8 @@ ul {
     border: 2px solid #000;
     border-radius: 10px;
 }
-.input._error{
+
+.input._error {
     box-shadow: 0 0 10px red;
 }
 
@@ -178,7 +183,8 @@ ul {
     background-color: #6b757e;
     padding: 0px 20px;
 }
-.file__button._error{
+
+.file__button._error {
     box-shadow: 0 0 10px red;
 }
 
@@ -373,6 +379,40 @@ fieldset {
 .author__input_clone {
     margin-left: 185px;
     margin-right: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid greenyellow;
+    padding: 10px;
+}
+
+th {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pagination__items {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.pagination__item {
+    padding: 5px 10px;
+    border: 1px solid #3e7cac;
+    font-weight: bold;
+}
+
+.pagination__item:hover {
+    cursor: pointer;
+    color: aqua;
+    background-color: #3e7cac;
 }
 
 .footer {
