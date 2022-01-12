@@ -20,7 +20,7 @@
               <table class="content__table">
                   <thead class="table__head">
                   <tr>
-                      <th class="surname">Surname</th>
+                      <th class="surname" title="click to sort"><span class="table__arrow">&#9650;</span>Surname</th>
                       <th>Name</th>
                       <th>Birth Date</th>
                       <th>Address</th>
@@ -33,9 +33,11 @@
               </table>
               <div class="content__pagination">
                   <ul class="pagination__items">
+<%--                      <li class="pagination__item prev">Prev</li>--%>
 <%--                      <li class="pagination__item">1</li>--%>
 <%--                      <li class="pagination__item">2</li>--%>
 <%--                      <li class="pagination__item">3</li>--%>
+<%--                      <li class="pagination__item next">Next</li>--%>
                   </ul>
               </div>
           </div>

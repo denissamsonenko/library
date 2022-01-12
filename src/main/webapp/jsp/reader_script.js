@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
+    const email = document.querySelector('#email');
 
     form.addEventListener('submit', createReader);
+    email.addEventListener('change', checkEmail);
 
     async function getEmail() {
         try {
@@ -22,11 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     method: 'POST',
                     body: formData,
                 });
+                if (response.ok) {
+                    // location.href = 'http://localhost:8081/lib/controller?command=reader_add_page';
+                }
             } catch (error) {
                 console.log(error)
             } finally {
                 form.reset();
             }
+
         }
     }
 
@@ -42,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formAddError(input, text);
                 error++;
             } else {
+                // TODO: do smth with validation
                 switch (input.id) {
                     case 'email':
                         input.autocomplete = 'chrome-off';
@@ -49,20 +56,28 @@ document.addEventListener('DOMContentLoaded', function () {
                             const text = 'invalid email';
                             formAddError(input, text)
                             error++;
-
-                        } else if (getEmail().then(function (value) {
-                            return value.includes(input.value.trim().toUpperCase())
-                        })) {
-                            const text = 'Change email';
-                            formAddError(input, text)
-                            error++
                         }
+                    // TODO: check existing email in database and notify client
+                        // if (checkEmail()) {
+                        //     const text = 'Change email';
+                        //     formAddError(input, text)
+                        //     error++
+                        // }
                         break;
                 }
             }
         }
         return error;
     }
+
+
+    // function checkEmail(){
+    //     let array = [];
+    //      getEmail().then(function (value) {
+    //          array = value;
+    //     })
+    //    return array.includes(email.value.trim().toUpperCase());
+    // }
 
     function formAddError(input, text) {
         input.parentElement.classList.add('_error')

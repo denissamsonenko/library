@@ -396,6 +396,14 @@ th {
     font-weight: bold;
 }
 
+.table__arrow {
+    display: inline-block;
+    padding: 5px;
+}
+.table__arrow.reverse{
+
+    transform: rotate(180deg);
+}
 .pagination__items {
     display: flex;
     flex-wrap: nowrap;
@@ -413,6 +421,9 @@ th {
     cursor: pointer;
     color: aqua;
     background-color: #3e7cac;
+}
+.pagination__item.active {
+    background-color: #527391;
 }
 
 .footer {

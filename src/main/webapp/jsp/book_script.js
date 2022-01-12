@@ -58,24 +58,6 @@
         this.remove();
     }
 
-    async function sendBooks(e) {
-        e.preventDefault();
-        let formData = new FormData(form);
-
-        if (formValidate() === 0) {
-            try {
-                const response = await fetch('http://localhost:8081/lib/controller?command=create_book', {
-                    method: 'POST',
-                    body: formData,
-                });
-            } catch (error) {
-                console.log(error)
-            } finally {
-                form.reset()
-            }
-        }
-    }
-
     function formValidate() {
         let error = 0;
         let formReq = document.querySelectorAll('._req');
@@ -176,11 +158,30 @@
     async function getGenres() {
         try {
             const response = await fetch('http://localhost:8081/lib/controller?command=send_genres');
-            if(response.ok){
+            if (response.ok) {
                 return await response.json();
             }
         } catch (error) {
             console.error(error.message);
         }
     }
+
+    async function sendBooks(e) {
+        e.preventDefault();
+        let formData = new FormData(form);
+
+        if (formValidate() === 0) {
+            try {
+                const response = await fetch('http://localhost:8081/lib/controller?command=create_book', {
+                    method: 'POST',
+                    body: formData,
+                });
+            } catch (error) {
+                console.error(error.message)
+            } finally {
+                form.reset()
+            }
+        }
+    }
+
 })()

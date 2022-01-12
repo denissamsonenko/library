@@ -1,14 +1,15 @@
-(function() {
+(function () {
     const tableBody = document.querySelector('.table__content');
-    const paginationItem = document.querySelector('.pagination__items');
+    const ul = document.querySelector('.pagination__items');
     const tableSortItem = document.querySelector('.surname');
-    const notesOnPage = 2;
+    const tableArrow = document.querySelector('.table__arrow');
+
+    const notesOnPage = 20;
     let sortValue = 'desc';
 
     document.addEventListener('DOMContentLoaded', init);
-
     tableSortItem.addEventListener('click', function () {
-
+        tableArrow.classList.toggle('reverse');
         if (sortValue === 'desc') {
             sortValue = 'asc'
         } else {
@@ -19,21 +20,59 @@
         });
     })
 
-    function printPage(data) {
-        let countOfItems = Math.ceil(data / notesOnPage);
-        for (let i = 1; i <= countOfItems; i++) {
-            let li = document.createElement('li');
+    function fillPages(rangeWithDots, totalPage) {
+        for (const numPage of rangeWithDots) {
+            const li = document.createElement('li');
+            li.innerHTML = numPage;
             li.className = 'pagination__item';
-            li.innerHTML = `${i}`;
-
             li.addEventListener('click', function () {
-                //TODO: should add className for emphasizing page
+                pagination(totalPage, +this.innerHTML);
                 listReader(sortValue, notesOnPage, this.innerHTML).then(value => {
                     contentRender(value);
+                    this.classList.add('active');
                 });
-            })
-            paginationItem.appendChild(li);
+            });
+            ul.appendChild(li);
         }
+    }
+
+    function pagination(data, page = 1) {
+        //remove class active
+        for (let child of ul.children) {
+            child.classList.remove('active');
+        }
+        let totalPage = Math.ceil(data / notesOnPage);
+        let currentPage = page;
+        const delta = 2;
+        let range = [];
+            let rangeWithDots = [];
+            let l;
+        range.push(1);
+
+        if (totalPage <= 1) {
+            return range;
+        }
+
+        for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+            if (i < totalPage && i > 1) {
+                range.push(i);
+            }
+        }
+        range.push(totalPage);
+
+        for (let i of range) {
+            if (l) {
+                if (i - l === 2) {
+                    rangeWithDots.push(l + 1);
+                } else if (i - l !== 1) {
+                    rangeWithDots.push('...');
+                }
+            }
+            rangeWithDots.push(i);
+            l = i;
+        }
+
+        fillPages(rangeWithDots, totalPage);
     }
 
     function contentRender(data) {
@@ -62,7 +101,7 @@
 
     function init() {
         Promise.all([getPagePagination(), listReader()]).then(values => {
-            printPage(values[0]);
+            pagination(values[0], 1);
             contentRender(values[1]);
         });
     }
