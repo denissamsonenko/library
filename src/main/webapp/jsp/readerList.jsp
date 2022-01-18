@@ -34,9 +34,6 @@
               <div class="content__pagination">
                   <ul class="pagination__items">
 <%--                      <li class="pagination__item prev">Prev</li>--%>
-<%--                      <li class="pagination__item">1</li>--%>
-<%--                      <li class="pagination__item">2</li>--%>
-<%--                      <li class="pagination__item">3</li>--%>
 <%--                      <li class="pagination__item next">Next</li>--%>
                   </ul>
               </div>

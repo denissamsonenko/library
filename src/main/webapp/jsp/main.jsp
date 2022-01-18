@@ -14,10 +14,34 @@
     <main class="main">
         <jsp:include page="parts/sidebar.jsp"/>
         <section class="content">
-            <h1 class="content__title">List Book Table</h1>
+            <div class="content__table">
+                <div class="content__header">
+                    <h2>List books table</h2>
+                </div>
+                <table class="content__table">
+                    <thead class="table__head">
+                    <tr>
+                        <th class="name_rus" title="click to sort"><span class="arrow__nameRus">&#9650;</span>Name book</th>
+                        <th>Genre</th>
+                        <th>Publish date</th>
+                        <th class="total__book">Total book</th>
+                        <th class="rest_book" title="click to sort"><span class="arrow__restBook">&#9650;</span>Availability</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__content">
+                    </tbody>
+                </table>
+                <div class="content__pagination">
+                    <ul class="pagination__items">
+                        <%--                      <li class="pagination__item prev">Prev</li>--%>
+                        <%--                      <li class="pagination__item next">Next</li>--%>
+                    </ul>
+                </div>
+            </div>
         </section>
     </main>
     <jsp:include page="parts/footer.jsp"/>
+    <script src="${pageContext.request.contextPath}/jsp/book_main.js"></script>
 </div>
 </body>
 </html>

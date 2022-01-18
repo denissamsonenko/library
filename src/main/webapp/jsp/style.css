@@ -391,17 +391,35 @@ td, th {
     padding: 10px;
 }
 
+tbody td{
+    text-align: center;
+}
+tbody tr:nth-child(odd) {
+    background-color: rgba(64, 64, 69, 0.84);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #312c31;
+}
 th {
     font-size: 20px;
     font-weight: bold;
 }
+.rest_book, .name_rus, .total__book {
+    width: 15%;
+}
 
-.table__arrow {
+.table__arrow,.arrow__nameRus,.arrow__restBook {
     display: inline-block;
     padding: 5px;
 }
 .table__arrow.reverse{
-
+    transform: rotate(180deg);
+}
+.arrow__nameRus.reverse{
+    transform: rotate(180deg);
+}
+.arrow__restBook.reverse{
     transform: rotate(180deg);
 }
 .pagination__items {

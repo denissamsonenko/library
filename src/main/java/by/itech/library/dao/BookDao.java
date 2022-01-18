@@ -11,5 +11,7 @@ public interface BookDao {
 
     List<Genre> getAllGenre() throws DaoException;
 
-    List<BookDto> getAllBook() throws DaoException;
+    List<BookDto> getAllBook(int limit, int offset, String sort, String sortColumn) throws DaoException;
+
+    Integer getAllBookCount() throws DaoException;
 }

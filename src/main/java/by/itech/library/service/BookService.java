@@ -11,5 +11,7 @@ public interface BookService {
 
     List<Genre> getAllGenre() throws ServiceException;
 
-    List<BookDto> getAllBook() throws ServiceException;
+    List<BookDto> getAllBook(int limit, int offset, String sort, String sortColumn) throws ServiceException;
+
+    Integer getAllBookCount() throws ServiceException;
 }

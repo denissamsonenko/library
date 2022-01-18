@@ -33,9 +33,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAllBook() throws ServiceException {
+    public List<BookDto> getAllBook(int limit, int offset, String sort, String sortColumn) throws ServiceException {
         try {
-            return bookDao.getAllBook();
+            return bookDao.getAllBook(limit, offset, sort, sortColumn);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Integer getAllBookCount() throws ServiceException {
+        try {
+            return bookDao.getAllBookCount();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

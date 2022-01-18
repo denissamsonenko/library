@@ -32,9 +32,12 @@ public class BookDaoImpl implements BookDao {
 
     private static final String GET_ALL_GENRES = "SELECT * FROM genres";
 
-    private static final String GET_ALL_BOOK = "SELECT b.id_book, b.name_ru, b.publish_date, b.quantity, COUNT(bc.*) as available_book, " +
-            "(SELECT array_agg(name_genre) FROM genres as gen JOIN book_genre as bg on gen.id_genre=bg.id_genre where bg.id_book=b.id_book) as genres " +
-            "FROM books as b JOIN book_copy as bc on (b.id_book=bc.id_book) WHERE bc.status='FREE' GROUP BY b.id_book";
+    private static final String GET_ALL_BOOK = "SELECT b.id_book, b.name_ru, b.publish_date, b.quantity, " +
+            "(SELECT COUNT(bc.*) as available_book from book_copy as bc WHERE bc.status='FREE' and b.id_book=bc.id_book), " +
+            "(SELECT array_agg(name_genre) FROM genres as gen JOIN book_genre as bg on (gen.id_genre=bg.id_genre) where bg.id_book=b.id_book) as genres " +
+            "FROM books as b GROUP BY b.id_book";
+
+    private static final String GET_ALL_BOOK_COUNT = "SELECT count(*) from books";
 
     @Override
     public void createBook(Book book) throws DaoException {
@@ -159,9 +162,9 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<BookDto> getAllBook() throws DaoException {
+    public List<BookDto> getAllBook(int limit, int offset, String sort, String sortColumn) throws DaoException {
         Connection con = null;
-        Statement st = null;
+        PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
@@ -170,8 +173,15 @@ public class BookDaoImpl implements BookDao {
             con = pool.getConnection();
             con.setAutoCommit(false);
 
-            st = con.createStatement();
-            rs = st.executeQuery(GET_ALL_BOOK);
+            if (sortColumn.equals("all")) {
+                ps = con.prepareStatement(String.format(GET_ALL_BOOK + " ORDER BY b.name_ru, available_book" + " LIMIT " + "%d" + " OFFSET " + "%d", limit, (limit * offset) - limit));
+            } else if (sortColumn.equals("name_ru")) {
+                ps = con.prepareStatement(String.format(GET_ALL_BOOK + " ORDER BY b.name_ru" + " %s" + " LIMIT " + "%d" + " OFFSET " + "%d", sort, limit, (limit * offset) - limit));
+            } else {
+                ps = con.prepareStatement(String.format(GET_ALL_BOOK + " ORDER BY available_book" + " %s" + " LIMIT " + "%d" + " OFFSET " + "%d", sort, limit, (limit * offset) - limit));
+            }
+
+            rs = ps.executeQuery();
 
             while (rs.next()) {
                 BookDto bookDto = new BookDto();
@@ -202,7 +212,35 @@ public class BookDaoImpl implements BookDao {
             pool.rollback(con);
             throw new DaoException(e);
         } finally {
-            pool.closeConnection(con, st, rs);
+            pool.closeConnection(con, ps, rs);
         }
     }
+
+    @Override
+    @SuppressWarnings("Duplicates")
+    public Integer getAllBookCount() throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int count = 0;
+        try {
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(GET_ALL_BOOK_COUNT);
+            rs = ps.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+
+            con.commit();
+            con.setAutoCommit(true);
+
+        } catch (SQLException e) {
+            pool.rollback(con);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        return count;
+    }
 }
+

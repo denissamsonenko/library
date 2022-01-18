@@ -1,14 +1,14 @@
 (function () {
-    const tableBody = document.querySelector('.table__content');
-    const ul = document.querySelector('.pagination__items');
-    const tableSortItem = document.querySelector('.surname');
-    const tableArrow = document.querySelector('.table__arrow');
+const tableBody = document.querySelector('.table__content');
+const ul = document.querySelector('.pagination__items');
+const tableSortItem = document.querySelector('.surname');
+const tableArrow = document.querySelector('.table__arrow');
 
-    const notesOnPage = 20;
-    let sortValue = 'desc';
+const notesOnPage = 20;
+let sortValue = 'asc';
 
-    document.addEventListener('DOMContentLoaded', init);
-    tableSortItem.addEventListener('click', function () {
+document.addEventListener('DOMContentLoaded', init);
+tableSortItem.addEventListener('click', function () {
         tableArrow.classList.toggle('reverse');
         if (sortValue === 'desc') {
             sortValue = 'asc'
@@ -20,40 +20,24 @@
         });
     })
 
-    function fillPages(rangeWithDots, totalPage) {
-        for (const numPage of rangeWithDots) {
-            const li = document.createElement('li');
-            li.innerHTML = numPage;
-            li.className = 'pagination__item';
-            li.addEventListener('click', function () {
-                pagination(totalPage, +this.innerHTML);
-                listReader(sortValue, notesOnPage, this.innerHTML).then(value => {
-                    contentRender(value);
-                    this.classList.add('active');
-                });
-            });
-            ul.appendChild(li);
-        }
-    }
+function pagination(sizeData) {
+    let countPage = Math.ceil(Number.parseInt(sizeData) / notesOnPage);
+    renderPage(countPage, 1)
+}
 
-    function pagination(data, page = 1) {
-        //remove class active
-        for (let child of ul.children) {
-            child.classList.remove('active');
-        }
-        let totalPage = Math.ceil(data / notesOnPage);
-        let currentPage = page;
+function renderPage(totalPage, currentPage= 1){
+        let page = currentPage;
         const delta = 2;
         let range = [];
-            let rangeWithDots = [];
-            let l;
+        let rangeWithDots = [];
+        let l;
         range.push(1);
 
         if (totalPage <= 1) {
             return range;
         }
 
-        for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+        for (let i = page - delta; i <= page + delta; i++) {
             if (i < totalPage && i > 1) {
                 range.push(i);
             }
@@ -72,52 +56,64 @@
             l = i;
         }
 
-        fillPages(rangeWithDots, totalPage);
-    }
+    for (let rangeWithDot of rangeWithDots) {
+        const li = document.createElement('li');
+        li.innerHTML = rangeWithDot;
+        li.className = 'pagination__item';
+        ul.appendChild(li);
 
-    function contentRender(data) {
-        tableBody.innerHTML = '';
-        for (let note of data) {
-            let tr = document.createElement('tr');
-            tableBody.appendChild(tr);
-            fillCell(note.surname, tr);
-            fillCell(note.name, tr);
-            fillCell(note.birthDate, tr);
-            fillCell(note.address, tr);
-            fillCell(note.email, tr);
-        }
-    }
-
-    function fillCell(text, tr) {
-        this.innerHTML = '';
-        let td = document.createElement('td');
-        if (!text) {
-            td.innerHTML = 'undefined';
-        } else {
-            td.innerHTML = text;
-        }
-        tr.appendChild(td);
-    }
-
-    function init() {
-        Promise.all([getPagePagination(), listReader()]).then(values => {
-            pagination(values[0], 1);
-            contentRender(values[1]);
+        li.addEventListener("click", function () {
+            ul.innerHTML='';
+            const currentPage = +this.innerHTML;
+            renderPage(totalPage, currentPage);
+            listReader(sortValue, notesOnPage, currentPage).then(value => contentRender(value));
         });
     }
+}
 
-    async function listReader(sort = sortValue, limit = notesOnPage, offset = 1) {
-        try {
-            const response = await fetch(`http://localhost:8081/lib/controller?command=send_list_reader&offset=${offset}&limit=${limit}&sort=${sort}`);
-            if (response.ok) {
-                return await response.json();
-            }
-        } catch (error) {
-            console.error(error.message)
-        }
+function contentRender(data) {
+    tableBody.innerHTML = '';
+    for (let note of data) {
+        let tr = document.createElement('tr');
+        tableBody.appendChild(tr);
+        fillCell(note.surname, tr);
+        fillCell(note.name, tr);
+        fillCell(note.birthDate, tr);
+        fillCell(note.address, tr);
+        fillCell(note.email, tr);
     }
+}
 
-    async function getPagePagination() {
+function fillCell(text, tr) {
+    this.innerHTML = '';
+    let td = document.createElement('td');
+    if (!text) {
+        td.innerHTML = 'undefined';
+    } else {
+        td.innerHTML = text;
+    }
+    tr.appendChild(td);
+}
+
+function init() {
+    Promise.all([listReader(),getSizeData() ]).then(value => {
+        contentRender(value[0]);
+        pagination(value[1]);
+    });
+}
+
+async function listReader(sort = sortValue, limit = notesOnPage, offset = 1) {
+    try {
+        const response = await fetch(`http://localhost:8081/lib/controller?command=send_list_reader&offset=${offset}&limit=${limit}&sort=${sort}`);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+    async function getSizeData() {
         try {
             const response = await fetch(`http://localhost:8081/lib/controller?command=send_count_reader`);
             if (response.ok) {
