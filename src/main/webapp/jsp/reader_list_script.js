@@ -10,11 +10,7 @@ let sortValue = 'asc';
 document.addEventListener('DOMContentLoaded', init);
 tableSortItem.addEventListener('click', function () {
         tableArrow.classList.toggle('reverse');
-        if (sortValue === 'desc') {
-            sortValue = 'asc'
-        } else {
-            sortValue = 'desc';
-        }
+        sortValue = (sortValue === 'desc')? 'asc': 'desc';
         listReader(sortValue, notesOnPage).then(value => {
             contentRender(value);
         });

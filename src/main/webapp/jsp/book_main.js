@@ -13,27 +13,19 @@
     document.addEventListener('DOMContentLoaded', init);
 
     nameRusColumn.addEventListener('click', function () {
-        const sortedElement = 'name_ru';
+        sortColumn = 'name_ru';
         arrowFromNameRus.classList.toggle('reverse');
-        if (sortValue === 'desc') {
-            sortValue = 'asc'
-        } else {
-            sortValue = 'desc';
-        }
-        listBook(sortedElement, sortValue, notesOnPage, 1).then(value => {
+        sortValue = (sortValue === 'desc')? 'asc': 'desc';
+        listBook(sortColumn, sortValue, notesOnPage, 1).then(value => {
             contentRender(value);
         });
     })
 
     availableBookColumn.addEventListener('click', function () {
-        const sortedElement = 'rest_book';
+        sortColumn = 'rest_book';
         arrowFromAvailable.classList.toggle('reverse');
-        if (sortValue === 'desc') {
-            sortValue = 'asc'
-        } else {
-            sortValue = 'desc';
-        }
-        listBook(sortedElement, sortValue, notesOnPage, 1).then(value => {
+        sortValue = (sortValue === 'desc')? 'asc': 'desc';
+        listBook(sortColumn, sortValue, notesOnPage, 1).then(value => {
             contentRender(value);
         });
     })
