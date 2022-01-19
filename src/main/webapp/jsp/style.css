@@ -30,7 +30,6 @@ h1 {
 
 h2 {
     font-size: 30px;
-    line-height: 1;
     margin: 0px 0px 20px 0px;
 }
 
@@ -117,6 +116,77 @@ ul {
 
 .content {
 
+}
+
+.content__order {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
+
+.content__generate {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content__search_reader {
+    width: 500px;
+    flex-grow: 1;
+}
+
+.content__search_book {
+    width: 500px;
+    flex-grow: 1;
+}
+
+.search__input {
+    position: relative;
+    width: 80%;
+}
+
+.search__input input {
+    padding: 10px 30px 10px 10px;
+    font-size: 16px;
+    border: 1px solid grey;
+    width: 100%;
+    background: #f1f1f1;
+}
+
+.icon__input {
+    position: absolute;
+    top: 19px;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    line-height: 50px;
+    text-align: center;
+    color: black;
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+.autocomplete__box {
+    display: none;
+
+}
+
+.autocomplete__box.active {
+    display: block;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    background-color: #6b757e;
+}
+
+.autocomplete__box li {
+    list-style: none;
+    padding: 0px 10px;
+    font-size: 12px;
+}
+
+.autocomplete__box li:hover {
+    background-color: #3c4549;
 }
 
 .content__header {
@@ -391,9 +461,10 @@ td, th {
     padding: 10px;
 }
 
-tbody td{
+tbody td {
     text-align: center;
 }
+
 tbody tr:nth-child(odd) {
     background-color: rgba(64, 64, 69, 0.84);
 }
@@ -401,27 +472,33 @@ tbody tr:nth-child(odd) {
 tbody tr:nth-child(even) {
     background-color: #312c31;
 }
+
 th {
     font-size: 20px;
     font-weight: bold;
 }
+
 .rest_book, .name_rus, .total__book {
     width: 15%;
 }
 
-.table__arrow,.arrow__nameRus,.arrow__restBook {
+.table__arrow, .arrow__nameRus, .arrow__restBook {
     display: inline-block;
     padding: 5px;
 }
-.table__arrow.reverse{
+
+.table__arrow.reverse {
     transform: rotate(180deg);
 }
-.arrow__nameRus.reverse{
+
+.arrow__nameRus.reverse {
     transform: rotate(180deg);
 }
-.arrow__restBook.reverse{
+
+.arrow__restBook.reverse {
     transform: rotate(180deg);
 }
+
 .pagination__items {
     display: flex;
     flex-wrap: nowrap;
@@ -440,6 +517,7 @@ th {
     color: aqua;
     background-color: #3e7cac;
 }
+
 .pagination__item.active {
     background-color: #527391;
 }

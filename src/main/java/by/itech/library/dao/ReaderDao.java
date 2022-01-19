@@ -12,4 +12,6 @@ public interface ReaderDao {
     List<Reader> getAllReader(int limit, int offset, String sort) throws DaoException;
 
     Integer getCountReader() throws DaoException;
+
+    List<Reader> searchReaderByEmail(String email) throws DaoException;
 }

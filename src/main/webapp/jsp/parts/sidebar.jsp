@@ -8,7 +8,7 @@
                 <a href="controller?command=reader_add_page" class="sidebar__link">Reader registration</a>
             </li>
             <li>
-                <a href="" class="sidebar__link">Give book</a>
+                <a href="controller?command=order_page" class="sidebar__link">Give book</a>
             </li>
             <li>
                 <a href="" class="sidebar__link">Receive book</a>

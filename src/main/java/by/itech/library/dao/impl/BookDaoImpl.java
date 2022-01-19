@@ -8,6 +8,7 @@ import by.itech.library.model.Book;
 import by.itech.library.model.CopyBook;
 import by.itech.library.model.Genre;
 import by.itech.library.model.dto.BookDto;
+import by.itech.library.model.dto.BookSearchDto;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class BookDaoImpl implements BookDao {
             "FROM books as b GROUP BY b.id_book";
 
     private static final String GET_ALL_BOOK_COUNT = "SELECT count(*) from books";
+
+    private static final String SEARCH_BOOK_BY_NAME = "SELECT id_copy, name_ru, price_per_day from books as b join book_copy as bc on (b.id_book=bc.id_book) where status='FREE' and name_ru like initcap(?||'%')";
 
     @Override
     public void createBook(Book book) throws DaoException {
@@ -241,6 +244,39 @@ public class BookDaoImpl implements BookDao {
             pool.closeConnection(con, ps, rs);
         }
         return count;
+    }
+
+    @Override
+    public List<BookSearchDto> searchBookByName(String name) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<BookSearchDto> list = new ArrayList<>();
+        try {
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(SEARCH_BOOK_BY_NAME);
+
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                BookSearchDto bookSearchDto = new BookSearchDto();
+                bookSearchDto.setIdCopy(rs.getInt("id_copy"));
+                bookSearchDto.setNameRus(rs.getString("name_ru"));
+                bookSearchDto.setPricePerDay(rs.getBigDecimal("price_per_day"));
+                list.add(bookSearchDto);
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+        } catch (SQLException e) {
+            pool.rollback(con);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        return list;
     }
 }
 

@@ -12,4 +12,6 @@ public interface ReaderService {
     List<Reader> getAllReader(int limit, int offset, String sort) throws ServiceException;
 
     Integer getCountReader() throws ServiceException;
+
+    List<Reader> searchReaderByEmail(String email) throws ServiceException;
 }

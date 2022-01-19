@@ -17,6 +17,7 @@ public class ReaderDaoImpl implements ReaderDao {
     private static final String GET_ALL_EMAIL = "SELECT email FROM readers";
     private static final String GET_ALL_READER = "SELECT id_reader, name, surname, birth_date, email, address FROM readers ORDER BY surname";
     private static final String GET_ALL_READER_COUNT = "SELECT count(id_reader) FROM readers";
+    private static final String SEARCH_READER_BY_EMAIL = "SELECT id_reader, name, surname, middle_name, passport, birth_date, email, address FROM readers WHERE email like UPPER(?||'%') ORDER BY email ASC LIMIT 5";
 
     @Override
     public void createReader(Reader reader) throws DaoException {
@@ -141,5 +142,43 @@ public class ReaderDaoImpl implements ReaderDao {
             pool.closeConnection(con, ps, rs);
         }
         return count;
+    }
+
+    @Override
+    public List<Reader> searchReaderByEmail(String email) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Reader> readerList = new ArrayList<>();
+        try {
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(SEARCH_READER_BY_EMAIL);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Reader reader = new Reader();
+                reader.setReaderId(rs.getInt("id_reader"));
+                reader.setName(rs.getString("name"));
+                reader.setSurname(rs.getString("surname"));
+                reader.setMiddleName(rs.getString("middle_name"));
+                reader.setPassport(rs.getString("passport"));
+                reader.setBirthDate(rs.getDate("birth_date").toLocalDate());
+                reader.setEmail(rs.getString("email"));
+                reader.setAddress(rs.getString("address"));
+                readerList.add(reader);
+            }
+
+
+            con.commit();
+            con.setAutoCommit(true);
+
+        } catch (SQLException e) {
+            pool.rollback(con);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        return readerList;
     }
 }

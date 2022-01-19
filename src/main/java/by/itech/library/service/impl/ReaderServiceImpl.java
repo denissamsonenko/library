@@ -47,4 +47,13 @@ public class ReaderServiceImpl implements ReaderService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public List<Reader> searchReaderByEmail(String email) throws ServiceException {
+        try {
+            return readerDao.searchReaderByEmail(email);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

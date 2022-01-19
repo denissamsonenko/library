@@ -1,6 +1,8 @@
 package by.itech.library.controller.command;
 
 import by.itech.library.controller.command.bookimpl.*;
+import by.itech.library.controller.command.orderimpl.CreateOrder;
+import by.itech.library.controller.command.orderimpl.OrderPage;
 import by.itech.library.controller.command.readerimpl.*;
 
 import java.util.HashMap;
@@ -12,16 +14,20 @@ public class CommandProvider {
     public CommandProvider() {
         commands.put(ParameterName.CREATE_READER, new CreateReader());
         commands.put(ParameterName.CREATE_BOOK, new CreateBook());
+        commands.put(ParameterName.CREATE_ORDER, new CreateOrder());
         commands.put(ParameterName.READER_ADD_PAGE, new AddReaderPage());
         commands.put(ParameterName.BOOK_ADD_PAGE, new AddBookPage());
         commands.put(ParameterName.BOOK_LIST_PAGE, new ListBookPage());
         commands.put(ParameterName.READER_LIST_PAGE, new ReaderListPage());
+        commands.put(ParameterName.ORDER_PAGE, new OrderPage());
         commands.put(ParameterName.SEND_GENRES, new SendGenres());
         commands.put(ParameterName.SEND_EMAIL, new SendEmail());
         commands.put(ParameterName.LIST_BOOK, new SendListBook());
         commands.put(ParameterName.SEND_LIST_READER, new SendListReader());
         commands.put(ParameterName.SEND_COUNT_READER, new SendCountReader());
         commands.put(ParameterName.SEND_BOOK_COUNT, new SendBookCount());
+        commands.put(ParameterName.SEARCH_READER_EMAIL, new SearchReader());
+        commands.put(ParameterName.SEARCH_BOOK_NAME, new SearchBook());
     }
 
     public Command getCommand(String commandName) {

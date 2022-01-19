@@ -1,6 +1,5 @@
 package by.itech.library.model.dto;
 
-import by.itech.library.model.CopyBook;
 import by.itech.library.model.Genre;
 
 import java.io.Serializable;

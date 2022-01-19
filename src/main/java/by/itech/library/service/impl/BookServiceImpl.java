@@ -6,6 +6,7 @@ import by.itech.library.dao.DaoProvider;
 import by.itech.library.model.Book;
 import by.itech.library.model.Genre;
 import by.itech.library.model.dto.BookDto;
+import by.itech.library.model.dto.BookSearchDto;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 
@@ -45,6 +46,15 @@ public class BookServiceImpl implements BookService {
     public Integer getAllBookCount() throws ServiceException {
         try {
             return bookDao.getAllBookCount();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<BookSearchDto> searchBookByName(String name) throws ServiceException {
+        try {
+            return bookDao.searchBookByName(name);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
