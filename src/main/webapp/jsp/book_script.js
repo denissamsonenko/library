@@ -35,7 +35,6 @@
         const newInput = inputAuthor.cloneNode(false);
         const newFile = fileAuthor.cloneNode(true);
 
-
         const deleteAuthor = document.createElement('span');
         const addSpanError = document.createElement('span');
         addSpanError.className = 'error';

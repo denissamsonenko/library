@@ -1,6 +1,9 @@
 package by.itech.library.controller.command.orderimpl;
 
 import by.itech.library.controller.command.Command;
+import by.itech.library.model.Order;
+import by.itech.library.service.OrderService;
+import by.itech.library.service.ServiceProvider;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +13,9 @@ import java.io.IOException;
 public class CreateOrder implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        OrderService orderService = ServiceProvider.getInstance().getOrderService();
+
+        Order order = new Order();
 
     }
 }

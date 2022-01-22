@@ -26,7 +26,7 @@ public class CommandProvider {
         commands.put(ParameterName.SEND_LIST_READER, new SendListReader());
         commands.put(ParameterName.SEND_COUNT_READER, new SendCountReader());
         commands.put(ParameterName.SEND_BOOK_COUNT, new SendBookCount());
-        commands.put(ParameterName.SEARCH_READER_EMAIL, new SearchReader());
+        commands.put(ParameterName.SEARCH_READER_SURNAME, new SearchReader());
         commands.put(ParameterName.SEARCH_BOOK_NAME, new SearchBook());
     }
 

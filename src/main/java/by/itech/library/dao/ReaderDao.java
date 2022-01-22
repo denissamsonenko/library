@@ -1,6 +1,7 @@
 package by.itech.library.dao;
 
 import by.itech.library.model.Reader;
+import by.itech.library.model.dto.ReaderOrder;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface ReaderDao {
 
     Integer getCountReader() throws DaoException;
 
-    List<Reader> searchReaderByEmail(String email) throws DaoException;
+    List<ReaderOrder> searchReaderBySurname(String surname) throws DaoException;
 }

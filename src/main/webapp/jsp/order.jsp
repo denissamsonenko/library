@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="RU">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/style.css">
@@ -19,17 +20,16 @@
                     <h2 class="content__header">Search Details</h2>
                 </div>
                 <div class="content__generate">
-                    <div class="content__search_reader">
+                    <div class="content__search_item">
                         <div class="search__input">
                             <label for="reader">Search reader:</label>
                             <input type="text" placeholder="Type to search.." id="reader">
                             <div class="icon__input"><i class="fa fa-search"></i></div>
                             <div class="autocomplete__box">
-                                <li>text</li>
                             </div>
                         </div>
                     </div>
-                    <div class="content__search_book">
+                    <div class="content__search_item">
                         <div class="search__input">
                             <label for="book">Search book:</label>
                             <input type="text" placeholder="Type to search.." id="book">
@@ -38,13 +38,85 @@
                             </div>
                         </div>
                     </div>
+                    <div class="content__search_date">
+                        <div class="search__date">
+                            <label for="dateReturn">Count days:</label>
+                            <select name="dateReturn" id="dateReturn">
+
+                            </select>
+                            <%--                            <input type="date" name="dateReturn" id="dateReturn">--%>
+                        </div>
+                    </div>
                 </div>
             </section>
-            <section class="content__check">
-                <div>
-                    <h2 class="content__header">Details order</h2>
-                </div>
+
+            <section class="order">
+                <form method="post" action="controller">
+                    <div>Personal Details:</div>
+                    <div>Denis Samsonenko</div>
+                    <div>denissamsonenko@mail.ru</div>
+                    <div>Date returning: 2022-05-23</div>
+                    <h2>Order details:</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Book Name</th>
+                            <th>Price Per Day</th>
+                            <th>Days</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table__body">
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4">Discount</td>
+                            <td class="table__discount">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Total Price</td>
+                            <td class="book__price">20</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </form>
             </section>
+            <%--                        <section class="content__collect">--%>
+            <%--                            <div>--%>
+            <%--                                <form method="post" action="controller">--%>
+            <%--                                    <input type="hidden" name="command" value="create_order">--%>
+            <%--                                    <div class="book__add">--%>
+            <%--                                        <h4>Book name*</h4>--%>
+            <%--                                        <div class="book__input">--%>
+            <%--                                        </div>--%>
+            <%--                                    </div>--%>
+            <%--                                    <div>--%>
+            <%--                                        <h4>Name reader*</h4>--%>
+            <%--                                        <div class="reader__input">--%>
+            <%--                                        </div>--%>
+            <%--                                    </div>--%>
+            <%--                                    <div>--%>
+            <%--                                        <h4>Date of Issue*</h4>--%>
+            <%--                                        <input type="date" name="dateIssue" id="dateIssue" class="input" readonly>--%>
+            <%--                                    </div>--%>
+            <%--                                    <div>--%>
+            <%--                                        <h4>Returning Date*</h4>--%>
+            <%--                                        <input type="date" name="dateReturn" id="dateReturn" class="input">--%>
+            <%--                                    </div>--%>
+            <%--                                    <div>--%>
+            <%--                                        <h4>Total price*</h4>--%>
+            <%--                                        <input type="text" name="totalPrice" id="totalPrice" class="input">--%>
+            <%--                                    </div>--%>
+            <%--                                    <div>--%>
+            <%--                                        <span class="error"></span>--%>
+            <%--                                    </div>--%>
+            <%--                                    <div>--%>
+            <%--                                        <button type="submit" id="create" class="button">Create order</button>--%>
+            <%--                                    </div>--%>
+            <%--                                </form>--%>
+            <%--                            </div>--%>
+            <%--                        </section>--%>
         </div>
     </main>
     <jsp:include page="parts/footer.jsp"/>

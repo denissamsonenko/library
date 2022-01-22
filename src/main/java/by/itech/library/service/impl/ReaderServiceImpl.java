@@ -4,6 +4,7 @@ import by.itech.library.dao.DaoException;
 import by.itech.library.dao.DaoProvider;
 import by.itech.library.dao.ReaderDao;
 import by.itech.library.model.Reader;
+import by.itech.library.model.dto.ReaderOrder;
 import by.itech.library.service.ReaderService;
 import by.itech.library.service.ServiceException;
 
@@ -49,9 +50,9 @@ public class ReaderServiceImpl implements ReaderService {
     }
 
     @Override
-    public List<Reader> searchReaderByEmail(String email) throws ServiceException {
+    public List<ReaderOrder> searchReaderBySurname(String surname) throws ServiceException {
         try {
-            return readerDao.searchReaderByEmail(email);
+            return readerDao.searchReaderBySurname(surname);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -1,6 +1,7 @@
 package by.itech.library.service;
 
 import by.itech.library.model.Reader;
+import by.itech.library.model.dto.ReaderOrder;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface ReaderService {
 
     Integer getCountReader() throws ServiceException;
 
-    List<Reader> searchReaderByEmail(String email) throws ServiceException;
+    List<ReaderOrder> searchReaderBySurname(String surname) throws ServiceException;
 }

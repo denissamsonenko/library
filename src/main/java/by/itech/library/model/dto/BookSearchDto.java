@@ -1,20 +1,25 @@
 package by.itech.library.model.dto;
 
+import by.itech.library.model.CopyBook;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class BookSearchDto implements Serializable {
-    private int idCopy;
+    private CopyBook copyBooks;
     private String nameRus;
     private BigDecimal pricePerDay;
 
-    public int getIdCopy() {
-        return idCopy;
+    public BookSearchDto() {
     }
 
-    public void setIdCopy(int idCopy) {
-        this.idCopy = idCopy;
+    public CopyBook getCopyBooks() {
+        return copyBooks;
+    }
+
+    public void setCopyBooks(CopyBook copyBooks) {
+        this.copyBooks = copyBooks;
     }
 
     public String getNameRus() {
@@ -38,20 +43,20 @@ public class BookSearchDto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookSearchDto that = (BookSearchDto) o;
-        return idCopy == that.idCopy &&
+        return Objects.equals(copyBooks, that.copyBooks) &&
                 Objects.equals(nameRus, that.nameRus) &&
                 Objects.equals(pricePerDay, that.pricePerDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCopy, nameRus, pricePerDay);
+        return Objects.hash(copyBooks, nameRus, pricePerDay);
     }
 
     @Override
     public String toString() {
         return "BookSearchDto{" +
-                "idCopy=" + idCopy +
+                "copyBooks=" + copyBooks +
                 ", nameRus='" + nameRus + '\'' +
                 ", pricePerDay=" + pricePerDay +
                 '}';

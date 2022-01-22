@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
             } finally {
                 form.reset();
             }
-
         }
     }
 

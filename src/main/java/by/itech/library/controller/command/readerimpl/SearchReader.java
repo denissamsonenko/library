@@ -3,6 +3,7 @@ package by.itech.library.controller.command.readerimpl;
 import by.itech.library.controller.command.Command;
 import by.itech.library.controller.util.MapperWithDate;
 import by.itech.library.model.Reader;
+import by.itech.library.model.dto.ReaderOrder;
 import by.itech.library.service.ReaderService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
@@ -18,11 +19,11 @@ public class SearchReader implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ReaderService readerService = ServiceProvider.getInstance().getReaderService();
 
-        String email = request.getParameter("email");
+        String surname = request.getParameter("surname");
 
-        List<Reader> reader;
+        List<ReaderOrder> readerOrder;
         try {
-            reader = readerService.searchReaderByEmail(email);
+            readerOrder = readerService.searchReaderBySurname(surname);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
@@ -30,7 +31,7 @@ public class SearchReader implements Command {
         String json = MapperWithDate
                 .getInstance()
                 .getObjectMapper()
-                .writeValueAsString(reader);
+                .writeValueAsString(readerOrder);
 
         response.getWriter().write(json);
     }

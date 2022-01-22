@@ -19,7 +19,7 @@ public class BookDaoImpl implements BookDao {
 
     private static final String CREATE_BOOK =
             "INSERT INTO books (name_ru, name_origin, publish_date, price, price_per_day, quantity, reg_date, page_number) " +
-                    "VALUES (initcap(?), initcap(?), ?, ?, ?, ?, ?, ?)";
+                    "VALUES (lower(?), lower(?), ?, ?, ?, ?, ?, ?)";
 
     private static final String BOOK_PICTURE_INSERT = "INSERT INTO book_img (name, id_book) VALUES (?, ?)";
 
@@ -40,7 +40,7 @@ public class BookDaoImpl implements BookDao {
 
     private static final String GET_ALL_BOOK_COUNT = "SELECT count(*) from books";
 
-    private static final String SEARCH_BOOK_BY_NAME = "SELECT id_copy, name_ru, price_per_day from books as b join book_copy as bc on (b.id_book=bc.id_book) where status='FREE' and name_ru like initcap(?||'%')";
+    private static final String SEARCH_BOOK_BY_NAME = "SELECT id_copy, name_ru, price_per_day from books as b join book_copy as bc on (b.id_book=bc.id_book) where status='FREE' and Upper(name_ru) like Upper(?)||'%' ";
 
     @Override
     public void createBook(Book book) throws DaoException {
@@ -257,13 +257,14 @@ public class BookDaoImpl implements BookDao {
             con = pool.getConnection();
             con.setAutoCommit(false);
             ps = con.prepareStatement(SEARCH_BOOK_BY_NAME);
-
             ps.setString(1, name);
-            rs = ps.executeQuery();
+             rs = ps.executeQuery();
 
             while (rs.next()) {
                 BookSearchDto bookSearchDto = new BookSearchDto();
-                bookSearchDto.setIdCopy(rs.getInt("id_copy"));
+                CopyBook copyBook = new CopyBook();
+                copyBook.setId(rs.getInt("id_copy"));
+                bookSearchDto.setCopyBooks(copyBook);
                 bookSearchDto.setNameRus(rs.getString("name_ru"));
                 bookSearchDto.setPricePerDay(rs.getBigDecimal("price_per_day"));
                 list.add(bookSearchDto);

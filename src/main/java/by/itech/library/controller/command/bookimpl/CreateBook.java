@@ -53,8 +53,6 @@ public class CreateBook implements Command {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-
-        // TODO: should be redirect? Because after creation remain data?
     }
 
     private List<CopyBook> getCopyBooks(Book book) {

@@ -3,7 +3,9 @@ package by.itech.library.dao.impl;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.ReaderDao;
 import by.itech.library.dao.pool.PoolConnection;
+import by.itech.library.model.OrderStatus;
 import by.itech.library.model.Reader;
+import by.itech.library.model.dto.ReaderOrder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class ReaderDaoImpl implements ReaderDao {
     private static final String GET_ALL_EMAIL = "SELECT email FROM readers";
     private static final String GET_ALL_READER = "SELECT id_reader, name, surname, birth_date, email, address FROM readers ORDER BY surname";
     private static final String GET_ALL_READER_COUNT = "SELECT count(id_reader) FROM readers";
-    private static final String SEARCH_READER_BY_EMAIL = "SELECT id_reader, name, surname, middle_name, passport, birth_date, email, address FROM readers WHERE email like UPPER(?||'%') ORDER BY email ASC LIMIT 5";
+    private static final String SEARCH_READER_BY_SURNAME = "SELECT r.id_reader as id_reader, name, surname, email, status FROM readers r left join orders o on(r.id_reader=o.id_reader) WHERE surname like initcap(?)||'%'";
 
     @Override
     public void createReader(Reader reader) throws DaoException {
@@ -145,35 +147,37 @@ public class ReaderDaoImpl implements ReaderDao {
     }
 
     @Override
-    public List<Reader> searchReaderByEmail(String email) throws DaoException {
+    public List<ReaderOrder> searchReaderBySurname(String surname) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        List<Reader> readerList = new ArrayList<>();
+        List<ReaderOrder> readerList = new ArrayList<>();
         try {
             con = pool.getConnection();
             con.setAutoCommit(false);
-            ps = con.prepareStatement(SEARCH_READER_BY_EMAIL);
-            ps.setString(1, email);
+            ps = con.prepareStatement(SEARCH_READER_BY_SURNAME);
+            ps.setString(1, surname);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
+                ReaderOrder readerOrder = new ReaderOrder();
                 Reader reader = new Reader();
                 reader.setReaderId(rs.getInt("id_reader"));
                 reader.setName(rs.getString("name"));
                 reader.setSurname(rs.getString("surname"));
-                reader.setMiddleName(rs.getString("middle_name"));
-                reader.setPassport(rs.getString("passport"));
-                reader.setBirthDate(rs.getDate("birth_date").toLocalDate());
                 reader.setEmail(rs.getString("email"));
-                reader.setAddress(rs.getString("address"));
-                readerList.add(reader);
-            }
+                readerOrder.setReader(reader);
+                if (rs.getString("status") == null) {
+                    readerOrder.setOrderStatus(null);
+                } else {
+                    readerOrder.setOrderStatus(OrderStatus.valueOf(rs.getString("status")));
+                }
 
+                readerList.add(readerOrder);
+            }
 
             con.commit();
             con.setAutoCommit(true);
-
         } catch (SQLException e) {
             pool.rollback(con);
         } finally {
