@@ -1,12 +1,15 @@
 package by.itech.library.model;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class Author implements Serializable {
     private int authorId;
     private String authorName;
-    private String photoAuthor;
+    private String photoName;
+    private InputStream photo;
+
 
     public Author() {
     }
@@ -27,12 +30,20 @@ public class Author implements Serializable {
         this.authorName = authorName;
     }
 
-    public String getPhotoAuthor() {
-        return photoAuthor;
+    public String getPhotoName() {
+        return photoName;
     }
 
-    public void setPhotoAuthor(String photoAuthor) {
-        this.photoAuthor = photoAuthor;
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
+    }
+
+    public InputStream getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(InputStream photo) {
+        this.photo = photo;
     }
 
     @Override
@@ -41,13 +52,13 @@ public class Author implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
         return authorId == author.authorId &&
-                authorName.equals(author.authorName) &&
-                photoAuthor.equals(author.photoAuthor);
+                Objects.equals(authorName, author.authorName) &&
+                Objects.equals(photoName, author.photoName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(authorId, authorName, photoAuthor);
+        return Objects.hash(authorId, authorName, photoName);
     }
 
     @Override
@@ -55,7 +66,7 @@ public class Author implements Serializable {
         return "Author{" +
                 "authorId=" + authorId +
                 ", authorName='" + authorName + '\'' +
-                ", photoAuthor='" + photoAuthor + '\'' +
+                ", photoName='" + photoName + '\'' +
                 '}';
     }
 }

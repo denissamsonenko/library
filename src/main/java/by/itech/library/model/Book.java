@@ -16,7 +16,7 @@ public class Book implements Serializable {
     private int quantity;
     private LocalDate registerDate;
     private int pageNumber;
-    private List<String> images;
+    private List<BookImage> bookImages;
     private List<Author> authors;
     private List<Genre> genres;
     private List<CopyBook> copyBooks;
@@ -96,12 +96,12 @@ public class Book implements Serializable {
         this.pageNumber = pageNumber;
     }
 
-    public List<String> getImages() {
-        return images;
+    public List<BookImage> getBookImages() {
+        return bookImages;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
+    public void setBookImages(List<BookImage> bookImages) {
+        this.bookImages = bookImages;
     }
 
     public List<Author> getAuthors() {
@@ -136,21 +136,21 @@ public class Book implements Serializable {
         return bookId == book.bookId &&
                 quantity == book.quantity &&
                 pageNumber == book.pageNumber &&
-                nameRus.equals(book.nameRus) &&
-                nameOrigin.equals(book.nameOrigin) &&
-                publishDate.equals(book.publishDate) &&
-                price.equals(book.price) &&
-                pricePerDay.equals(book.pricePerDay) &&
-                registerDate.equals(book.registerDate) &&
-                images.equals(book.images) &&
-                authors.equals(book.authors) &&
-                genres.equals(book.genres) &&
-                copyBooks.equals(book.copyBooks);
+                Objects.equals(nameRus, book.nameRus) &&
+                Objects.equals(nameOrigin, book.nameOrigin) &&
+                Objects.equals(publishDate, book.publishDate) &&
+                Objects.equals(price, book.price) &&
+                Objects.equals(pricePerDay, book.pricePerDay) &&
+                Objects.equals(registerDate, book.registerDate) &&
+                Objects.equals(bookImages, book.bookImages) &&
+                Objects.equals(authors, book.authors) &&
+                Objects.equals(genres, book.genres) &&
+                Objects.equals(copyBooks, book.copyBooks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, nameRus, nameOrigin, publishDate, price, pricePerDay, quantity, registerDate, pageNumber, images, authors, genres, copyBooks);
+        return Objects.hash(bookId, nameRus, nameOrigin, publishDate, price, pricePerDay, quantity, registerDate, pageNumber, bookImages, authors, genres, copyBooks);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class Book implements Serializable {
                 ", quantity=" + quantity +
                 ", registerDate=" + registerDate +
                 ", pageNumber=" + pageNumber +
-                ", images=" + images +
+                ", bookImages=" + bookImages +
                 ", authors=" + authors +
                 ", genres=" + genres +
                 ", copyBooks=" + copyBooks +

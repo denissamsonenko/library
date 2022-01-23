@@ -135,7 +135,8 @@ ul {
     flex-grow: 1;
     margin: 15px 0px;
 }
-.content__search_date{
+
+.content__search_date {
     width: 200px;
     flex-grow: 1;
     margin: 15px 0px;
@@ -154,7 +155,7 @@ ul {
     background: #f1f1f1;
 }
 
-.search__date select{
+.search__date select {
     padding: 10px 10px;
     font-size: 16px;
     text-align: center;
@@ -162,6 +163,7 @@ ul {
     width: 80px;
     background: #f1f1f1;
 }
+
 .search__date label {
     display: block;
 }
@@ -329,9 +331,11 @@ form {
 form > div, fieldset {
     margin: 10px 10px;
 }
+
 form h4 {
     margin: 15px 10px;
 }
+
 fieldset {
     border: 2px groove #fff;
     display: grid;
@@ -408,6 +412,7 @@ fieldset {
 
 .button {
     display: inline-block;
+    margin: 10px 15px 10px 0px;
     padding: 5px 15px;
     font-size: 15px;
     cursor: pointer;
@@ -574,4 +579,8 @@ th {
 
 .error {
     color: red;
+}
+
+.order {
+    padding: 20px 0px;
 }

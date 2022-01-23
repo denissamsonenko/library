@@ -11,12 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CreateBook implements Command {
@@ -43,7 +41,7 @@ public class CreateBook implements Command {
         book.setPrice(BigDecimal.valueOf(Double.parseDouble(request.getParameter("price"))));
         book.setPricePerDay(BigDecimal.valueOf(Double.parseDouble(request.getParameter("pricePerDay"))));
         book.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        book.setImages(getFile(request, "file", SAVE_DIRECTORY_BOOKS));
+        book.setBookImages(getFile(request,"file"));
         book.setAuthors(getAuthors(request));
         book.setGenres(getGenres(request));
         book.setCopyBooks(getCopyBooks(book));
@@ -81,24 +79,47 @@ public class CreateBook implements Command {
                     return author;
                 }).collect(Collectors.toList());
 
-        List<String> authorFiles = getFile(request, "fileAuthor", SAVE_DIRECTORY_AUTHORS);
+
+        List<Author> authorFiles = getFileAuthor(request, "fileAuthor");
+
         for (int i = 0; i < authors.size(); i++) {
-            authors.get(i).setPhotoAuthor(authorFiles.get(i));
+            authors.get(i).setPhotoName(authorFiles.get(i).getPhotoName());
+            authors.get(i).setPhoto(authorFiles.get(i).getPhoto());
         }
         return authors;
     }
 
-    private List<String> getFile(HttpServletRequest request, String partName, String saveDirectory) throws IOException, ServletException {
-        List<String> picture = new ArrayList<>();
+    private List<Author> getFileAuthor(HttpServletRequest request, String partName) throws IOException, ServletException {
+        List<Author> picture = new ArrayList<>();
         for (Part part : request.getParts()) {
             if (part.getName().equals(partName)) {
                 if (!part.getSubmittedFileName().isEmpty()) {
+                    Author author = new Author();
                     String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", "");
-                    picture.add(name);
-                    part.write(saveDirectory + name);
+                    author.setPhotoName(name);
+                    InputStream inputStream = part.getInputStream();
+                    author.setPhoto(inputStream);
+                    picture.add(author);
                 } else {
-                    picture.add(part.getSubmittedFileName());
+                    Author author = new Author();
+                    author.setPhotoName(part.getSubmittedFileName());
+                    picture.add(author);
                 }
+            }
+        }
+        return picture;
+    }
+
+    private List<BookImage> getFile(HttpServletRequest request, String partName) throws IOException, ServletException {
+        List<BookImage> picture = new ArrayList<>();
+        for (Part part : request.getParts()) {
+            if (part.getName().equals(partName)) {
+                BookImage bookImage = new BookImage();
+                String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", "");
+                InputStream inputStream = part.getInputStream();
+                bookImage.setFile(inputStream);
+                bookImage.setBookName(name);
+                picture.add(bookImage);
             }
         }
         return picture;

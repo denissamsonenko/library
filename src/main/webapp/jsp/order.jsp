@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="RU">
 <head>
@@ -6,7 +7,7 @@
     <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/style.css"/>
     <title>Order</title>
 </head>
 <body>
@@ -44,23 +45,25 @@
                             <select name="dateReturn" id="dateReturn">
 
                             </select>
-                            <%--                            <input type="date" name="dateReturn" id="dateReturn">--%>
                         </div>
                     </div>
                 </div>
             </section>
-
             <section class="order">
                 <form method="post" action="controller">
-                    <div>Personal Details:</div>
-                    <div>Denis Samsonenko</div>
-                    <div>denissamsonenko@mail.ru</div>
-                    <div>Date returning: 2022-05-23</div>
-                    <h2>Order details:</h2>
+                    <div>
+                        <h3>Personal Details:</h3>
+                    </div>
+                    <div class="personal_details">
+                    </div>
+                    <div class="date"></div>
+                    <div>
+                        <h3>Order details:</h3>
+                    </div>
                     <table>
                         <thead>
                         <tr>
-                            <th>Book</th>
+                            <th>№</th>
                             <th>Book Name</th>
                             <th>Price Per Day</th>
                             <th>Days</th>
@@ -76,11 +79,20 @@
                         </tr>
                         <tr>
                             <td colspan="4">Total Price</td>
-                            <td class="book__price">20</td>
+                            <td class="book__price">0 </td>
                         </tr>
                         </tfoot>
                     </table>
+                    <div>
+                        <span class="error"></span>
+                    </div>
+                    <div>
+                        <button type="submit" id="create" class="button">Create order</button>
+                        <button id="print" class="button">Print order</button>
+                        <button id="clean" class="button">Clean order</button>
+                    </div>
                 </form>
+
             </section>
             <%--                        <section class="content__collect">--%>
             <%--                            <div>--%>

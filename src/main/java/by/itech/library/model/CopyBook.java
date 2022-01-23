@@ -1,5 +1,6 @@
 package by.itech.library.model;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -8,6 +9,7 @@ public class CopyBook implements Serializable {
     private int id;
     private List<String> imageName;
     private String status;
+    private List<InputStream> image;
 
     public CopyBook() {
     }
@@ -36,14 +38,23 @@ public class CopyBook implements Serializable {
         this.status = status;
     }
 
+    public List<InputStream> getImage() {
+        return image;
+    }
+
+    public void setImage(List<InputStream> image) {
+        this.image = image;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CopyBook copyBook = (CopyBook) o;
         return id == copyBook.id &&
-                imageName.equals(copyBook.imageName) &&
-                status.equals(copyBook.status);
+                Objects.equals(imageName, copyBook.imageName) &&
+                Objects.equals(status, copyBook.status) &&
+                Objects.equals(image, copyBook.image);
     }
 
     @Override

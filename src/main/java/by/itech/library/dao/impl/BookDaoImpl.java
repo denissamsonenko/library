@@ -3,10 +3,7 @@ package by.itech.library.dao.impl;
 import by.itech.library.dao.BookDao;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.pool.PoolConnection;
-import by.itech.library.model.Author;
-import by.itech.library.model.Book;
-import by.itech.library.model.CopyBook;
-import by.itech.library.model.Genre;
+import by.itech.library.model.*;
 import by.itech.library.model.dto.BookDto;
 import by.itech.library.model.dto.BookSearchDto;
 
@@ -19,13 +16,13 @@ public class BookDaoImpl implements BookDao {
 
     private static final String CREATE_BOOK =
             "INSERT INTO books (name_ru, name_origin, publish_date, price, price_per_day, quantity, reg_date, page_number) " +
-                    "VALUES (lower(?), lower(?), ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String BOOK_PICTURE_INSERT = "INSERT INTO book_img (name, id_book) VALUES (?, ?)";
+    private static final String BOOK_PICTURE_INSERT = "INSERT INTO book_img (id_book, img, name) VALUES (?, ?, ?)";
 
     private static final String BOOK_GENRE_INSERT = "INSERT INTO book_genre (id_book, id_genre) VALUES (?, ?)";
 
-    private static final String AUTHOR_INSERT = "INSERT INTO authors (name, photo) VALUES (initcap(?), ?)";
+    private static final String AUTHOR_INSERT = "INSERT INTO authors (name, photo, img) VALUES (initcap(?), ?, ?)";
 
     private static final String BOOK_AUTHOR_INSERT = "INSERT INTO book_author (id_book, id_author) VALUES (?,?)";
 
@@ -40,7 +37,7 @@ public class BookDaoImpl implements BookDao {
 
     private static final String GET_ALL_BOOK_COUNT = "SELECT count(*) from books";
 
-    private static final String SEARCH_BOOK_BY_NAME = "SELECT id_copy, name_ru, price_per_day from books as b join book_copy as bc on (b.id_book=bc.id_book) where status='FREE' and Upper(name_ru) like Upper(?)||'%' ";
+    private static final String SEARCH_BOOK_BY_NAME = "SELECT id_copy, name_ru, price_per_day from books as b join book_copy as bc on (b.id_book=bc.id_book) where status=? and Upper(name_ru) like Upper(?)||'%' ";
 
     @Override
     public void createBook(Book book) throws DaoException {
@@ -60,6 +57,7 @@ public class BookDaoImpl implements BookDao {
             } else {
                 ps.setNull(3, Types.DATE);
             }
+
             ps.setBigDecimal(4, book.getPrice());
             ps.setBigDecimal(5, book.getPricePerDay());
             ps.setInt(6, book.getQuantity());
@@ -75,9 +73,10 @@ public class BookDaoImpl implements BookDao {
             int bookId = rs.getInt(1);
 
             ps = con.prepareStatement(BOOK_PICTURE_INSERT);
-            for (String file : book.getImages()) {
-                ps.setString(1, file);
-                ps.setInt(2, bookId);
+            for (BookImage bookImage : book.getBookImages()) {
+                ps.setInt(1, bookId);
+                ps.setBinaryStream(2, bookImage.getFile());
+                ps.setString(3,bookImage.getBookName());
                 ps.executeUpdate();
             }
 
@@ -88,14 +87,20 @@ public class BookDaoImpl implements BookDao {
                 ps.executeUpdate();
             }
 
+
             List<Integer> authorId = new ArrayList<>();
             ps = con.prepareStatement(AUTHOR_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
             for (Author author : book.getAuthors()) {
                 ps.setString(1, author.getAuthorName());
-                if (!author.getPhotoAuthor().equals("")) {
-                    ps.setString(2, author.getPhotoAuthor());
+                if (!author.getPhotoName().equals("")) {
+                    ps.setString(2, author.getPhotoName());
                 } else {
                     ps.setNull(2, Types.VARCHAR);
+                }
+                if(author.getPhoto() != null){
+                    ps.setBinaryStream(3, author.getPhoto());
+                } else{
+                    ps.setNull(3, Types.BINARY);
                 }
                 ps.executeUpdate();
                 rs = ps.getGeneratedKeys();
@@ -121,13 +126,7 @@ public class BookDaoImpl implements BookDao {
             con.commit();
             con.setAutoCommit(true);
         } catch (SQLException e) {
-            try {
-                if (con != null) {
-                    con.rollback();
-                }
-            } catch (SQLException ex) {
-                //log
-            }
+            pool.rollback(con);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -257,7 +256,8 @@ public class BookDaoImpl implements BookDao {
             con = pool.getConnection();
             con.setAutoCommit(false);
             ps = con.prepareStatement(SEARCH_BOOK_BY_NAME);
-            ps.setString(1, name);
+            ps.setString(1, String.valueOf(Status.FREE));
+            ps.setString(2, name);
              rs = ps.executeQuery();
 
             while (rs.next()) {
