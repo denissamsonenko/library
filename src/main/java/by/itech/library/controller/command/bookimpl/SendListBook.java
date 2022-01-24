@@ -14,14 +14,20 @@ import java.io.IOException;
 import java.util.List;
 
 public class SendListBook implements Command {
+
+    private static final String SORT_VALUE_ATTR = "sort_value";
+    private static final String SORT_ATTR = "sort";
+    private static final String OFFSET_ATTR = "offset";
+    private static final String LIMIT_ATTR = "limit";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         BookService bookService = ServiceProvider.getInstance().getBookService();
 
-        String sortColumn = request.getParameter("sort_value");
-        String sort = request.getParameter("sort");
-        int offset = Integer.parseInt(request.getParameter("offset"));
-        int limit = Integer.parseInt(request.getParameter("limit"));
+        String sortColumn = request.getParameter(SORT_VALUE_ATTR);
+        String sort = request.getParameter(SORT_ATTR);
+        int offset = Integer.parseInt(request.getParameter(OFFSET_ATTR));
+        int limit = Integer.parseInt(request.getParameter(LIMIT_ATTR));
 
         List<BookDto> bookDtoList;
         try {

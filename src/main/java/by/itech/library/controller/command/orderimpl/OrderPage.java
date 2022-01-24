@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class OrderPage implements Command {
+    private static final String JSP_ORDER_JSP = "jsp/order.jsp";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher rd = request.getRequestDispatcher("jsp/order.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher(JSP_ORDER_JSP);
         rd.forward(request, response);
     }
 }

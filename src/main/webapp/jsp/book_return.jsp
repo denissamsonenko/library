@@ -7,7 +7,7 @@
     <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/style.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/css/style.css">
     <title>Order</title>
 </head>
 <body>
@@ -79,7 +79,7 @@
                         </tr>
                         <tr>
                             <td colspan="4">Total Price</td>
-                            <td class="book__price">0 </td>
+                            <td class="book__price">0</td>
                         </tr>
                         </tfoot>
                     </table>
@@ -94,45 +94,10 @@
                 </form>
 
             </section>
-            <%--                        <section class="content__collect">--%>
-            <%--                            <div>--%>
-            <%--                                <form method="post" action="controller">--%>
-            <%--                                    <input type="hidden" name="command" value="create_order">--%>
-            <%--                                    <div class="book__add">--%>
-            <%--                                        <h4>Book name*</h4>--%>
-            <%--                                        <div class="book__input">--%>
-            <%--                                        </div>--%>
-            <%--                                    </div>--%>
-            <%--                                    <div>--%>
-            <%--                                        <h4>Name reader*</h4>--%>
-            <%--                                        <div class="reader__input">--%>
-            <%--                                        </div>--%>
-            <%--                                    </div>--%>
-            <%--                                    <div>--%>
-            <%--                                        <h4>Date of Issue*</h4>--%>
-            <%--                                        <input type="date" name="dateIssue" id="dateIssue" class="input" readonly>--%>
-            <%--                                    </div>--%>
-            <%--                                    <div>--%>
-            <%--                                        <h4>Returning Date*</h4>--%>
-            <%--                                        <input type="date" name="dateReturn" id="dateReturn" class="input">--%>
-            <%--                                    </div>--%>
-            <%--                                    <div>--%>
-            <%--                                        <h4>Total price*</h4>--%>
-            <%--                                        <input type="text" name="totalPrice" id="totalPrice" class="input">--%>
-            <%--                                    </div>--%>
-            <%--                                    <div>--%>
-            <%--                                        <span class="error"></span>--%>
-            <%--                                    </div>--%>
-            <%--                                    <div>--%>
-            <%--                                        <button type="submit" id="create" class="button">Create order</button>--%>
-            <%--                                    </div>--%>
-            <%--                                </form>--%>
-            <%--                            </div>--%>
-            <%--                        </section>--%>
         </div>
     </main>
     <jsp:include page="parts/footer.jsp"/>
-    <script src="${pageContext.request.contextPath}/jsp/book_return.js"></script>
+    <script src="${pageContext.request.contextPath}/jsp/js/book_return.js"></script>
 </div>
 </body>
 </html>

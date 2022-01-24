@@ -14,11 +14,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class SearchBook implements Command {
+    public static final String NAME_ATTR = "name";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         BookService bookService = ServiceProvider.getInstance().getBookService();
 
-        String bookName = request.getParameter("name");
+        String bookName = request.getParameter(NAME_ATTR);
 
         List<BookCopyDto> listBook;
         try {

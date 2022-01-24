@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AddReaderPage implements Command {
+    private static final String JSP_READER_JSP = "jsp/reader.jsp";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/reader.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(JSP_READER_JSP);
         requestDispatcher.forward(request, response);
     }
 }

@@ -3,7 +3,6 @@ package by.itech.library.controller.command.bookimpl;
 import by.itech.library.controller.command.Command;
 import by.itech.library.model.*;
 import by.itech.library.model.dto.Book;
-import by.itech.library.model.CopyBook;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
@@ -16,34 +15,47 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CreateBook implements Command {
-    public static final String SAVE_DIRECTORY_AUTHORS = "/Users/denissamsonenko/iTechArt/src/main/webapp/files/authors/";
-    public static final String SAVE_DIRECTORY_BOOKS = "/Users/denissamsonenko/iTechArt/src/main/webapp/files/books/";
+    private static final String NAME_ORIGIN = "nameOrigin";
+    private static final String EMPTY_VALUE = "";
+    private static final String PAGE_NUMBER_ATTR = "pageNumber";
+    private static final String PUBLISH_DATE_ATTR = "publishDate";
+    private static final String NAME_RUS_ATTR = "nameRus";
+    private static final String PRICE_ATTR = "price";
+    private static final String PRICE_PER_DAY_ATTR = "pricePerDay";
+    private static final String QUANTITY_ATTR = "quantity";
+    private static final String GENRE_ATTR = "genre";
+    private static final String AUTHORS_ATTR = "authors";
+    private static final String FILE_AUTHOR_ATTR = "fileAuthor";
+    private static final String FILE_ATTR_IMG = "file";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         BookService bookService = ServiceProvider.getInstance().getBookService();
 
         Book book = new Book();
-        if (!request.getParameter("nameOrigin").equals("")) {
-            book.setNameOrigin(request.getParameter("nameOrigin"));
+        if (!request.getParameter(NAME_ORIGIN).equals(EMPTY_VALUE)) {
+            book.setNameOrigin(request.getParameter(NAME_ORIGIN));
         }
-        if (!request.getParameter("pageNumber").equals("")) {
-            book.setPageNumber(Integer.parseInt(request.getParameter("pageNumber")));
+        if (!request.getParameter(PAGE_NUMBER_ATTR).equals(EMPTY_VALUE)) {
+            book.setPageNumber(Integer.parseInt(request.getParameter(PAGE_NUMBER_ATTR)));
         }
-        if (!request.getParameter("publishDate").equals("")) {
-            book.setPublishDate(LocalDate.parse(request.getParameter("publishDate") + "-01-01"));
+        if (!request.getParameter(PUBLISH_DATE_ATTR).equals(EMPTY_VALUE)) {
+            book.setPublishDate(LocalDate.parse(request.getParameter(PUBLISH_DATE_ATTR) + "-01-01"));
         }
 
-        book.setNameRus(request.getParameter("nameRus"));
+        book.setNameRus(request.getParameter(NAME_RUS_ATTR));
         book.setRegisterDate(LocalDate.now());
-        book.setPrice(BigDecimal.valueOf(Double.parseDouble(request.getParameter("price"))));
-        book.setPricePerDay(BigDecimal.valueOf(Double.parseDouble(request.getParameter("pricePerDay"))));
-        book.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        book.setBookImages(getFile(request,"file"));
+        book.setPrice(BigDecimal.valueOf(Double.parseDouble(request.getParameter(PRICE_ATTR))));
+        book.setPricePerDay(BigDecimal.valueOf(Double.parseDouble(request.getParameter(PRICE_PER_DAY_ATTR))));
+        book.setQuantity(Integer.parseInt(request.getParameter(QUANTITY_ATTR)));
+        book.setBookImages(getFile(request));
         book.setAuthors(getAuthors(request));
         book.setGenres(getGenres(request));
         book.setCopyBooks(getCopyBooks(book));
@@ -66,7 +78,7 @@ public class CreateBook implements Command {
     }
 
     private List<Genre> getGenres(HttpServletRequest request) {
-        return Arrays.stream(request.getParameterValues("genre")).map(value -> {
+        return Arrays.stream(request.getParameterValues(GENRE_ATTR)).map(value -> {
             Genre genre = new Genre();
             genre.setGenreId(Integer.parseInt(value));
             return genre;
@@ -74,7 +86,7 @@ public class CreateBook implements Command {
     }
 
     private List<Author> getAuthors(HttpServletRequest request) throws IOException, ServletException {
-        List<Author> authors = Arrays.stream(request.getParameterValues("authors"))
+        List<Author> authors = Arrays.stream(request.getParameterValues(AUTHORS_ATTR))
                 .map(value -> {
                     Author author = new Author();
                     author.setAuthorName(value);
@@ -82,7 +94,7 @@ public class CreateBook implements Command {
                 }).collect(Collectors.toList());
 
 
-        List<Author> authorFiles = getFileAuthor(request, "fileAuthor");
+        List<Author> authorFiles = getFileAuthor(request);
 
         for (int i = 0; i < authors.size(); i++) {
             authors.get(i).setPhotoName(authorFiles.get(i).getPhotoName());
@@ -91,13 +103,13 @@ public class CreateBook implements Command {
         return authors;
     }
 
-    private List<Author> getFileAuthor(HttpServletRequest request, String partName) throws IOException, ServletException {
+    private List<Author> getFileAuthor(HttpServletRequest request) throws IOException, ServletException {
         List<Author> picture = new ArrayList<>();
         for (Part part : request.getParts()) {
-            if (part.getName().equals(partName)) {
+            if (part.getName().equals(FILE_AUTHOR_ATTR)) {
                 if (!part.getSubmittedFileName().isEmpty()) {
                     Author author = new Author();
-                    String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", "");
+                    String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", EMPTY_VALUE);
                     author.setPhotoName(name);
                     InputStream inputStream = part.getInputStream();
                     author.setPhoto(inputStream);
@@ -112,12 +124,12 @@ public class CreateBook implements Command {
         return picture;
     }
 
-    private List<BookImage> getFile(HttpServletRequest request, String partName) throws IOException, ServletException {
+    private List<BookImage> getFile(HttpServletRequest request) throws IOException, ServletException {
         List<BookImage> picture = new ArrayList<>();
         for (Part part : request.getParts()) {
-            if (part.getName().equals(partName)) {
+            if (part.getName().equals(FILE_ATTR_IMG)) {
                 BookImage bookImage = new BookImage();
-                String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", "");
+                String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", EMPTY_VALUE);
                 InputStream inputStream = part.getInputStream();
                 bookImage.setFile(inputStream);
                 bookImage.setBookName(name);

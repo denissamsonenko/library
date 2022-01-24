@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/css/style.css">
     <title>Document</title>
 </head>
 <body>
@@ -65,6 +65,6 @@
     </main>
     <jsp:include page="parts/footer.jsp"/>
 </div>
-<script src="${pageContext.request.contextPath}/jsp/reader_script.js"></script>
+<script src="${pageContext.request.contextPath}/jsp/js/reader_script.js"></script>
 </body>
 </html>

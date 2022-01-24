@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainPage</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/jsp/css/style.css">
 </head>
 <body>
 <div class="wrapper">
@@ -21,11 +21,13 @@
                 <table class="content__table">
                     <thead class="table__head">
                     <tr>
-                        <th class="name_rus" title="click to sort"><span class="arrow__nameRus">&#9650;</span>Name book</th>
+                        <th class="name_rus" title="click to sort"><span class="arrow__nameRus">&#9650;</span>Name book
+                        </th>
                         <th>Genre</th>
                         <th>Publish date</th>
                         <th class="total__book">Total book</th>
-                        <th class="rest_book" title="click to sort"><span class="arrow__restBook">&#9650;</span>Availability</th>
+                        <th class="rest_book" title="click to sort"><span class="arrow__restBook">&#9650;</span>Availability
+                        </th>
                     </tr>
                     </thead>
                     <tbody class="table__content">
@@ -33,15 +35,13 @@
                 </table>
                 <div class="content__pagination">
                     <ul class="pagination__items">
-                        <%--                      <li class="pagination__item prev">Prev</li>--%>
-                        <%--                      <li class="pagination__item next">Next</li>--%>
                     </ul>
                 </div>
             </div>
         </section>
     </main>
     <jsp:include page="parts/footer.jsp"/>
-    <script src="${pageContext.request.contextPath}/jsp/book_main.js"></script>
+    <script src="${pageContext.request.contextPath}/jsp/js/main.js"></script>
 </div>
 </body>
 </html>

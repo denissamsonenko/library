@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AddBookPage implements Command {
+    private static final String PATH_ADD_BOOK = "jsp/book_create.jsp";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/book.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(PATH_ADD_BOOK);
         requestDispatcher.forward(request, response);
     }
 }

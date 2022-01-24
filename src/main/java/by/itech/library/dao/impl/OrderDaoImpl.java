@@ -31,6 +31,15 @@ public class OrderDaoImpl implements OrderDao {
             "FROM order_copy oc JOIN book_copy AS bc on (oc.id_copy=bc.id_copy) " +
             "JOIN books as b on (bc.id_book=b.id_book) where oc.id_order=?";
 
+    private final static String UPDATE_ORDER = "UPDATE orders SET expire_date=?, finish_price=?, fine=?, status=? WHERE id_order=?";
+
+    private final static String SAVE_NOTES = "INSERT INTO notes (note, id_copy) VALUES (?, ?)";
+
+    private final static String SAVE_COPY_IMG = "INSERT INTO copy_img (name, id_copy, img) VALUES (?,?,?)";
+
+    private final static String UPDATE_BOOK_COPY_STATUS = "UPDATE book_copy SET status=? WHERE id_copy=?";
+
+
     @Override
     public void saveOrder(Order order) throws DaoException {
         Connection con = null;
@@ -149,5 +158,25 @@ public class OrderDaoImpl implements OrderDao {
         }
 
         return orderDto;
+    }
+
+    @Override
+    public void closeOrder(Orders orders, List<CopyBookImg> copyBookImg, List<NotesCopyBook> notesCopy) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement("");
+
+
+        } catch (SQLException e) {
+            pool.rollback(con);
+            throw new DaoException(e);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
     }
 }

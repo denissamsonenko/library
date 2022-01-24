@@ -33,12 +33,7 @@ public class CloseOrder implements Command {
         orders.setOrderStatus(OrderStatus.COMPLETED);
 
         List<CopyBookImg> copyBookImg = getCopyBookImg(request);
-
         List<NotesCopyBook> notesCopy = getNotes(request);
-
-        NotesCopyBook notes = new NotesCopyBook();
-        notes.setNote(request.getParameter(""));
-        notesCopy.add(notes);
 
     }
 

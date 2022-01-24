@@ -13,14 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SendOrder implements Command {
+    private static final String EMAIL_ATTR = "email";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         OrderService orderService = ServiceProvider.getInstance().getOrderService();
-        String email = request.getParameter("email");
+        String email = request.getParameter(EMAIL_ATTR);
 
         OrderDto order;
         try {
-             order = orderService.getOrder(email);
+            order = orderService.getOrder(email);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }

@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ListBookPage implements Command {
+    private static final String JSP_MAIN_JSP = "jsp/main.jsp";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher rd = request.getRequestDispatcher("jsp/main.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher(JSP_MAIN_JSP);
         rd.forward(request, response);
     }
 }

@@ -2,7 +2,6 @@ package by.itech.library.controller.command.readerimpl;
 
 import by.itech.library.controller.command.Command;
 import by.itech.library.controller.util.MapperWithDate;
-import by.itech.library.model.Reader;
 import by.itech.library.model.dto.ReaderOrder;
 import by.itech.library.service.ReaderService;
 import by.itech.library.service.ServiceException;
@@ -15,11 +14,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class SearchReader implements Command {
+    private static final String SURNAME_ATTR = "surname";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ReaderService readerService = ServiceProvider.getInstance().getReaderService();
 
-        String surname = request.getParameter("surname");
+        String surname = request.getParameter(SURNAME_ATTR);
 
         List<ReaderOrder> readerOrder;
         try {

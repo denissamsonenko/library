@@ -13,32 +13,38 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CreateReader implements Command {
+    private static final String MIDDLE_NAME_ATTR = "middleName";
+    private static final String ADDRESS_ATTR = "address";
+    private static final String PASSPORT_ATTR = "passport";
+    private static final String EMPTY_STRING = "";
+    private static final String BIRTH_DATE_ATTR = "birthDate";
+    private static final String NAME_ATTR = "name";
+    private static final String SURNAME_ATTR = "surname";
+    private static final String EMAIL_ATTR = "email";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ReaderService readerService = ServiceProvider.getInstance().getReaderService();
 
         Reader reader = new Reader();
-        if (!request.getParameter("middleName").equals("")) {
-            reader.setMiddleName(request.getParameter("middleName"));
+        if (!request.getParameter(MIDDLE_NAME_ATTR).equals(EMPTY_STRING)) {
+            reader.setMiddleName(request.getParameter(MIDDLE_NAME_ATTR));
         }
-        if (!request.getParameter("address").equals("")) {
-            reader.setAddress(request.getParameter("address"));
+        if (!request.getParameter(ADDRESS_ATTR).equals(EMPTY_STRING)) {
+            reader.setAddress(request.getParameter(ADDRESS_ATTR));
         }
-        if (!request.getParameter("passport").equals("")) {
-            reader.setPassport(request.getParameter("passport"));
+        if (!request.getParameter(PASSPORT_ATTR).equals(EMPTY_STRING)) {
+            reader.setPassport(request.getParameter(PASSPORT_ATTR));
         }
-        reader.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
-        reader.setName(request.getParameter("name"));
-        reader.setSurname(request.getParameter("surname"));
-        reader.setEmail(request.getParameter("email"));
+        reader.setBirthDate(LocalDate.parse(request.getParameter(BIRTH_DATE_ATTR)));
+        reader.setName(request.getParameter(NAME_ATTR));
+        reader.setSurname(request.getParameter(SURNAME_ATTR));
+        reader.setEmail(request.getParameter(EMAIL_ATTR));
 
         try {
             readerService.createReader(reader);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-
-        // TODO: should be redirect? Because after creation remain data?
     }
 }
