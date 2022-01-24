@@ -3,7 +3,7 @@ package by.itech.library.service;
 import by.itech.library.model.dto.Book;
 import by.itech.library.model.Genre;
 import by.itech.library.model.dto.BookDto;
-import by.itech.library.model.dto.BookSearchDto;
+import by.itech.library.model.dto.BookCopyDto;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface BookService {
 
     Integer getAllBookCount() throws ServiceException;
 
-    List<BookSearchDto> searchBookByName(String name) throws ServiceException;
+    List<BookCopyDto> searchBookByName(String name) throws ServiceException;
 }

@@ -2,7 +2,7 @@ package by.itech.library.controller.command.bookimpl;
 
 import by.itech.library.controller.command.Command;
 import by.itech.library.controller.util.MapperWithDate;
-import by.itech.library.model.dto.BookSearchDto;
+import by.itech.library.model.dto.BookCopyDto;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
@@ -20,7 +20,7 @@ public class SearchBook implements Command {
 
         String bookName = request.getParameter("name");
 
-        List<BookSearchDto> listBook;
+        List<BookCopyDto> listBook;
         try {
             listBook = bookService.searchBookByName(bookName);
         } catch (ServiceException e) {

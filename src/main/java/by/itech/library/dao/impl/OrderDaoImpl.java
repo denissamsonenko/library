@@ -7,6 +7,7 @@ import by.itech.library.model.CopyBook;
 import by.itech.library.model.dto.Order;
 import by.itech.library.model.OrderStatus;
 import by.itech.library.model.Status;
+import by.itech.library.model.dto.OrderDto;
 
 import java.sql.*;
 
@@ -77,7 +78,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order getOrder() throws DaoException {
+    public OrderDto getOrder() throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

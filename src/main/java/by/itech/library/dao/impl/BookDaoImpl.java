@@ -6,7 +6,7 @@ import by.itech.library.dao.pool.PoolConnection;
 import by.itech.library.model.*;
 import by.itech.library.model.dto.Book;
 import by.itech.library.model.dto.BookDto;
-import by.itech.library.model.dto.BookSearchDto;
+import by.itech.library.model.dto.BookCopyDto;
 import by.itech.library.model.CopyBook;
 
 import java.sql.*;
@@ -248,12 +248,12 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<BookSearchDto> searchBookByName(String name) throws DaoException {
+    public List<BookCopyDto> searchBookByName(String name) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        List<BookSearchDto> list = new ArrayList<>();
+        List<BookCopyDto> list = new ArrayList<>();
         try {
             con = pool.getConnection();
             con.setAutoCommit(false);
@@ -263,13 +263,13 @@ public class BookDaoImpl implements BookDao {
              rs = ps.executeQuery();
 
             while (rs.next()) {
-                BookSearchDto bookSearchDto = new BookSearchDto();
+                BookCopyDto bookCopyDto = new BookCopyDto();
                 CopyBook copyBook = new CopyBook();
                 copyBook.setId(rs.getInt("id_copy"));
-                bookSearchDto.setCopyBooks(copyBook);
-                bookSearchDto.setNameRus(rs.getString("name_ru"));
-                bookSearchDto.setPricePerDay(rs.getBigDecimal("price_per_day"));
-                list.add(bookSearchDto);
+                bookCopyDto.setCopyBooks(copyBook);
+                bookCopyDto.setNameRus(rs.getString("name_ru"));
+                bookCopyDto.setPricePerDay(rs.getBigDecimal("price_per_day"));
+                list.add(bookCopyDto);
             }
 
             con.commit();

@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class BookSearchDto implements Serializable {
+public class BookCopyDto implements Serializable {
     private CopyBook copyBooks;
     private String nameRus;
     private BigDecimal pricePerDay;
 
-    public BookSearchDto() {
+    public BookCopyDto() {
     }
 
     public CopyBook getCopyBooks() {
@@ -42,7 +42,7 @@ public class BookSearchDto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookSearchDto that = (BookSearchDto) o;
+        BookCopyDto that = (BookCopyDto) o;
         return Objects.equals(copyBooks, that.copyBooks) &&
                 Objects.equals(nameRus, that.nameRus) &&
                 Objects.equals(pricePerDay, that.pricePerDay);
