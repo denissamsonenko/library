@@ -1,19 +1,3 @@
 <header class="header">
-    <a href="" class="header__logo"></a>
-    <nav class="header__menu">
-        <ul class="header__list">
-            <li>
-                <a href="controller?command=book_list_page" class="header__link">List Books</a>
-            </li>
-            <li>
-                <a href="controller?command=reader_list_page" class="header__link">List Readers</a>
-            </li>
-            <li>
-                <a href="" class="header__link">Write-off Book</a>
-            </li>
-            <li>
-                <a href="" class="header__link">Revenue Performance</a>
-            </li>
-        </ul>
-    </nav>
+    <a href="controller?command=book_list_page" class="header__logo"><img src="" alt="" class="header__img"></a>
 </header>
