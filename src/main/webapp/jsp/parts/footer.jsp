@@ -3,6 +3,6 @@
         Copyright 2021
     </div>
     <div class="footer__text">
-        iTechArt
+        iDenArt
     </div>
 </footer>
