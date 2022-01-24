@@ -89,7 +89,6 @@ public class BookDaoImpl implements BookDao {
                 ps.executeUpdate();
             }
 
-
             List<Integer> authorId = new ArrayList<>();
             ps = con.prepareStatement(AUTHOR_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
             for (Author author : book.getAuthors()) {

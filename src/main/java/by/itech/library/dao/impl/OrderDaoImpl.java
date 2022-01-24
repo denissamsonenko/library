@@ -3,13 +3,14 @@ package by.itech.library.dao.impl;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.OrderDao;
 import by.itech.library.dao.pool.PoolConnection;
-import by.itech.library.model.CopyBook;
+import by.itech.library.model.*;
+import by.itech.library.model.dto.BookCopyDto;
 import by.itech.library.model.dto.Order;
-import by.itech.library.model.OrderStatus;
-import by.itech.library.model.Status;
 import by.itech.library.model.dto.OrderDto;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
     private final PoolConnection pool = PoolConnection.getInstance();
@@ -21,12 +22,14 @@ public class OrderDaoImpl implements OrderDao {
 
     private final static String CHANGE_COPY_STATUS = "UPDATE book_copy SET status=? WHERE id_copy=?";
 
-    private final static String GET_ORDER = "SELECT o.id_order, o.id_reader, oc.id_copy, b.name_ru, r.name, r.surname, r.email, o.issue_date, o.return_date, o.advance_price " +
-            "FROM orders as o LEFT JOIN readers AS r ON (o.id_reader=r.id_reader) " +
-            "JOIN order_copy AS oc ON (o.id_order= oc.id_order) " +
-            "JOIN book_copy AS bc ON (oc.id_copy = bc.id_copy) " +
-            "LEFT JOIN books AS b ON (bc.id_book=b.id_book) " +
-            "WHERE o.status IN ('ACTIVE', 'OVERDUE') AND r.surname LIKE initcap(?)||'%'";
+    private final static String GET_READER_FOR_ORDER = "SELECT r.id_reader, r.name, r.surname, r.middle_name, r.passport, r.birth_date, r.email, r.address " +
+            "FROM readers AS r LEFT JOIN orders AS o on (r.id_reader = o.id_reader) WHERE r.email=UPPER(?) AND status IN (?, ?)";
+
+    private final static String GET_ORDER = "SELECT id_order, issue_date, return_date, advance_price, discount FROM orders WHERE id_reader=?";
+
+    private final static String GET_COPY_BOOK = "SELECT oc.id_copy, b.name_ru, b.price_per_day " +
+            "FROM order_copy oc JOIN book_copy AS bc on (oc.id_copy=bc.id_copy) " +
+            "JOIN books as b on (bc.id_book=b.id_book) where oc.id_order=?";
 
     @Override
     public void saveOrder(Order order) throws DaoException {
@@ -74,32 +77,77 @@ public class OrderDaoImpl implements OrderDao {
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-
     }
 
     @Override
-    public OrderDto getOrder() throws DaoException {
+    public OrderDto getOrder(String email) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Order order = new Order();
+        OrderDto orderDto = new OrderDto();
         try {
             con = pool.getConnection();
             con.setAutoCommit(false);
-            ps = con.prepareStatement(GET_ORDER);
+            ps = con.prepareStatement(GET_READER_FOR_ORDER);
+
+            ps.setString(1, email);
+            ps.setString(2, String.valueOf(OrderStatus.ACTIVE));
+            ps.setString(3, String.valueOf(OrderStatus.OVERDUE));
             rs = ps.executeQuery();
 
-            while(rs.next()){
-
+            Reader reader = new Reader();
+            while (rs.next()) {
+                reader.setReaderId(rs.getInt(1));
+                reader.setName(rs.getString(2));
+                reader.setSurname(rs.getString(3));
+                reader.setMiddleName(rs.getString(4));
+                reader.setPassport(rs.getString(5));
+                reader.setBirthDate(rs.getDate(6).toLocalDate());
+                reader.setEmail(rs.getString(7));
+                reader.setAddress(rs.getString(8));
             }
+            orderDto.setReader(reader);
 
+            ps = con.prepareStatement(GET_ORDER);
+            ps.setInt(1, reader.getReaderId());
+            rs = ps.executeQuery();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Orders order = new Orders();
+            while (rs.next()) {
+                order.setIdOrder(rs.getInt(1));
+                order.setDateIssue(rs.getDate(2).toLocalDate());
+                order.setDateReturn(rs.getDate(3).toLocalDate());
+                order.setAdvancePrice(rs.getBigDecimal(4));
+                order.setDiscount(rs.getInt(5));
+            }
+            orderDto.setOrders(order);
+
+            ps = con.prepareStatement(GET_COPY_BOOK);
+            ps.setInt(1, order.getIdOrder());
+            rs = ps.executeQuery();
+
+            List<BookCopyDto> bookCopyDtoList = new ArrayList<>();
+            while (rs.next()) {
+                BookCopyDto bookCopyDto = new BookCopyDto();
+                CopyBook copyBook = new CopyBook();
+                copyBook.setId(rs.getInt(1));
+                bookCopyDto.setCopyBooks(copyBook);
+                bookCopyDto.setNameRus(rs.getString(2));
+                bookCopyDto.setPricePerDay(rs.getBigDecimal(3));
+                bookCopyDtoList.add(bookCopyDto);
+            }
+            orderDto.setBookCopyDto(bookCopyDtoList);
+
+            con.commit();
+            con.setAutoCommit(true);
+        } catch (SQLException e) {
+            pool.rollback(con);
+            throw new DaoException(e);
+        } finally {
+            pool.closeConnection(con, ps, rs);
         }
 
-
-        return null;
+        return orderDto;
     }
 }

@@ -6,5 +6,5 @@ import by.itech.library.model.dto.OrderDto;
 public interface OrderDao {
     void saveOrder(Order order) throws DaoException;
 
-    OrderDto getOrder() throws DaoException;
+    OrderDto getOrder(String email) throws DaoException;
 }
