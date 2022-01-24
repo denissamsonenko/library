@@ -1,6 +1,6 @@
 package by.itech.library.dao;
 
-import by.itech.library.model.Order;
+import by.itech.library.model.dto.Order;
 
 public interface OrderDao {
     void saveOrder(Order order) throws DaoException;

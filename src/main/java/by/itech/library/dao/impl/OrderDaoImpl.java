@@ -4,7 +4,7 @@ import by.itech.library.dao.DaoException;
 import by.itech.library.dao.OrderDao;
 import by.itech.library.dao.pool.PoolConnection;
 import by.itech.library.model.CopyBook;
-import by.itech.library.model.Order;
+import by.itech.library.model.dto.Order;
 import by.itech.library.model.OrderStatus;
 import by.itech.library.model.Status;
 

@@ -1,6 +1,6 @@
 package by.itech.library.service;
 
-import by.itech.library.model.Order;
+import by.itech.library.model.dto.Order;
 
 public interface OrderService {
 

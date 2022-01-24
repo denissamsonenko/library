@@ -1,4 +1,8 @@
-package by.itech.library.model;
+package by.itech.library.model.dto;
+
+import by.itech.library.model.CopyBook;
+import by.itech.library.model.OrderStatus;
+import by.itech.library.model.Reader;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
