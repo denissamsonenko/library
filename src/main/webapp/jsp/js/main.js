@@ -88,7 +88,7 @@
                 return [...prev, cur.genreName]
             }, []);
             let year;
-            if (!note.publishDate) {
+            if (note.publishDate) {
                 year = new Date(note.publishDate).getFullYear();
             }
 

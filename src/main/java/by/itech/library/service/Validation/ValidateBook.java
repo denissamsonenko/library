@@ -10,13 +10,12 @@ public class ValidateBook {
     private static final int NAME_LENGTH = 50;
     private static final int PRICE_LENGTH = 13;
 
-
-    public boolean isCorrect(Book book) {
-        return isNameBookCorrect(book.getNameRus()) ||
-                isNameOriginCorrect(book.getNameOrigin()) ||
-                isPriceCorrect(book.getPrice()) ||
-                isPricePerDayCorrect(book.getPricePerDay()) ||
-                isQuantityCorrect(book.getQuantity()) ||
+    public static boolean isCorrect(Book book) {
+        return isNameBookCorrect(book.getNameRus()) &&
+                isNameOriginCorrect(book.getNameOrigin()) &&
+                isPriceCorrect(book.getPrice()) &&
+                isPricePerDayCorrect(book.getPricePerDay()) &&
+                isQuantityCorrect(book.getQuantity()) &&
                 isRegDateCorrect(book.getRegisterDate());
 
     }
@@ -26,7 +25,7 @@ public class ValidateBook {
     }
 
     public static boolean isNameOriginCorrect(String nameOrigin) {
-        if (!nameOrigin.isEmpty()) {
+        if (nameOrigin != null) {
             return nameOrigin.length() < NAME_LENGTH;
         }
         return true;

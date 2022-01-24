@@ -3,12 +3,13 @@ package by.itech.library.service.impl;
 import by.itech.library.dao.BookDao;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.DaoProvider;
-import by.itech.library.model.dto.Book;
 import by.itech.library.model.Genre;
-import by.itech.library.model.dto.BookDto;
+import by.itech.library.model.dto.Book;
 import by.itech.library.model.dto.BookCopyDto;
+import by.itech.library.model.dto.BookDto;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
+import by.itech.library.service.Validation.ValidateBook;
 
 import java.util.List;
 
@@ -17,10 +18,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void createBook(Book book) throws ServiceException {
+
         try {
-            bookDao.createBook(book);
+            if (ValidateBook.isCorrect(book)) {
+                bookDao.createBook(book);
+            }
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Invalid book, check field");
         }
     }
 
