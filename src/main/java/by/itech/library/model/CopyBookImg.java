@@ -1,25 +1,48 @@
 package by.itech.library.model;
 
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CopyBookImg {
-    private int idImg;
-    private String nameImg;
+public class CopyBookImg implements Serializable {
+    private int idImage;
+    private String name;
+    private int idCopy;
+    private InputStream img;
 
-    public int getIdImg() {
-        return idImg;
+    public CopyBookImg() {
     }
 
-    public void setIdImg(int idImg) {
-        this.idImg = idImg;
+    public int getIdImage() {
+        return idImage;
     }
 
-    public String getNameImg() {
-        return nameImg;
+    public void setIdImage(int idImage) {
+        this.idImage = idImage;
     }
 
-    public void setNameImg(String nameImg) {
-        this.nameImg = nameImg;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getIdCopy() {
+        return idCopy;
+    }
+
+    public void setIdCopy(int idCopy) {
+        this.idCopy = idCopy;
+    }
+
+    public InputStream getImg() {
+        return img;
+    }
+
+    public void setImg(InputStream img) {
+        this.img = img;
     }
 
     @Override
@@ -27,20 +50,23 @@ public class CopyBookImg {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CopyBookImg that = (CopyBookImg) o;
-        return idImg == that.idImg &&
-                Objects.equals(nameImg, that.nameImg);
+        return idImage == that.idImage &&
+                idCopy == that.idCopy &&
+                Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idImg, nameImg);
+        return Objects.hash(idImage, name, idCopy);
     }
 
     @Override
     public String toString() {
         return "CopyBookImg{" +
-                "idImg=" + idImg +
-                ", nameImg='" + nameImg + '\'' +
+                "idImage=" + idImage +
+                ", name='" + name + '\'' +
+                ", idCopy=" + idCopy +
+                ", img=" + img +
                 '}';
     }
 }

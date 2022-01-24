@@ -2,6 +2,7 @@ package by.itech.library.controller.command.orderimpl;
 
 import by.itech.library.controller.command.Command;
 import by.itech.library.model.*;
+import by.itech.library.model.CopyBook;
 import by.itech.library.service.OrderService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;

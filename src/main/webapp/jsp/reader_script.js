@@ -1,9 +1,69 @@
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
     const form = document.querySelector('form');
-    const email = document.querySelector('#email');
 
+    document.addEventListener('DOMContentLoaded', init);
     form.addEventListener('submit', createReader);
-    email.addEventListener('change', checkEmail);
+    let emails = [];
+
+    function formValidate() {
+        let error = 0;
+        let formReq = document.querySelectorAll('._req');
+
+        for (let i = 0; i < formReq.length; i++) {
+            const input = formReq[i];
+            formRemoveError(input);
+            if (input.value === '') {
+                const text = 'field must not be empty';
+                formAddError(input, text);
+                error++;
+            } else {
+                switch (input.id) {
+                    case 'email':
+                        input.autocomplete = 'chrome-off';
+                        if (emailTest(input)) {
+                            const text = 'invalid email';
+                            formAddError(input, text)
+                            error++;
+                        }
+                        if (checkEmail(input)) {
+                            const text = 'Change email';
+                            formAddError(input, text)
+                            error++
+                        }
+                        break;
+                }
+            }
+        }
+        return error;
+    }
+
+    function checkEmail(input) {
+        return emails.includes(input.value.trim().toUpperCase());
+    }
+
+    function formAddError(input, text) {
+        input.parentElement.classList.add('_error')
+        input.classList.add('_error')
+        input.nextElementSibling.innerText = `${text}`;
+        input.nextElementSibling.classList.add('show');
+    }
+
+    function formRemoveError(input) {
+        input.parentElement.classList.remove('_error');
+        input.classList.remove('_error');
+        input.nextElementSibling.innerText = '';
+        input.nextElementSibling.classList.remove('show');
+    }
+
+    function emailTest(input) {
+        return !/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(input.value);
+    }
+
+    function init() {
+        getEmail().then(value => {
+            emails = value;
+        });
+    }
 
     async function getEmail() {
         try {
@@ -34,65 +94,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
-    function formValidate() {
-        let error = 0;
-        let formReq = document.querySelectorAll('._req');
-
-        for (let i = 0; i < formReq.length; i++) {
-            const input = formReq[i];
-            formRemoveError(input);
-            if (input.value === '') {
-                const text = 'field must not be empty';
-                formAddError(input, text);
-                error++;
-            } else {
-                // TODO: do smth with validation
-                switch (input.id) {
-                    case 'email':
-                        input.autocomplete = 'chrome-off';
-                        if (emailTest(input)) {
-                            const text = 'invalid email';
-                            formAddError(input, text)
-                            error++;
-                        }
-                    // TODO: check existing email in database and notify client
-                        // if (checkEmail()) {
-                        //     const text = 'Change email';
-                        //     formAddError(input, text)
-                        //     error++
-                        // }
-                        break;
-                }
-            }
-        }
-        return error;
-    }
-
-
-    // function checkEmail(){
-    //     let array = [];
-    //      getEmail().then(function (value) {
-    //          array = value;
-    //     })
-    //    return array.includes(email.value.trim().toUpperCase());
-    // }
-
-    function formAddError(input, text) {
-        input.parentElement.classList.add('_error')
-        input.classList.add('_error')
-        input.nextElementSibling.innerText = `${text}`;
-        input.nextElementSibling.classList.add('show');
-    }
-
-    function formRemoveError(input) {
-        input.parentElement.classList.remove('_error');
-        input.classList.remove('_error');
-        input.nextElementSibling.innerText = '';
-        input.nextElementSibling.classList.remove('show');
-    }
-
-    function emailTest(input) {
-        return !/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i.test(input.value);
-    }
-})
+})()

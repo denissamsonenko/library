@@ -3,7 +3,7 @@ package by.itech.library.service.impl;
 import by.itech.library.dao.BookDao;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.DaoProvider;
-import by.itech.library.model.Book;
+import by.itech.library.model.dto.Book;
 import by.itech.library.model.Genre;
 import by.itech.library.model.dto.BookDto;
 import by.itech.library.model.dto.BookSearchDto;

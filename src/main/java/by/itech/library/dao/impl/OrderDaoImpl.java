@@ -20,6 +20,13 @@ public class OrderDaoImpl implements OrderDao {
 
     private final static String CHANGE_COPY_STATUS = "UPDATE book_copy SET status=? WHERE id_copy=?";
 
+    private final static String GET_ORDER = "SELECT o.id_order, o.id_reader, oc.id_copy, b.name_ru, r.name, r.surname, r.email, o.issue_date, o.return_date, o.advance_price " +
+            "FROM orders as o LEFT JOIN readers AS r ON (o.id_reader=r.id_reader) " +
+            "JOIN order_copy AS oc ON (o.id_order= oc.id_order) " +
+            "JOIN book_copy AS bc ON (oc.id_copy = bc.id_copy) " +
+            "LEFT JOIN books AS b ON (bc.id_book=b.id_book) " +
+            "WHERE o.status IN ('ACTIVE', 'OVERDUE') AND r.surname LIKE initcap(?)||'%'";
+
     @Override
     public void saveOrder(Order order) throws DaoException {
         Connection con = null;
@@ -67,5 +74,31 @@ public class OrderDaoImpl implements OrderDao {
             pool.closeConnection(con, ps, rs);
         }
 
+    }
+
+    @Override
+    public Order getOrder() throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Order order = new Order();
+        try {
+            con = pool.getConnection();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(GET_ORDER);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+        return null;
     }
 }

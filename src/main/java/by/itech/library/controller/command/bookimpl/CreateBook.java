@@ -2,6 +2,8 @@ package by.itech.library.controller.command.bookimpl;
 
 import by.itech.library.controller.command.Command;
 import by.itech.library.model.*;
+import by.itech.library.model.dto.Book;
+import by.itech.library.model.CopyBook;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;

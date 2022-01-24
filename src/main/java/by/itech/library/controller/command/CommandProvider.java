@@ -1,8 +1,7 @@
 package by.itech.library.controller.command;
 
 import by.itech.library.controller.command.bookimpl.*;
-import by.itech.library.controller.command.orderimpl.CreateOrder;
-import by.itech.library.controller.command.orderimpl.OrderPage;
+import by.itech.library.controller.command.orderimpl.*;
 import by.itech.library.controller.command.readerimpl.*;
 
 import java.util.HashMap;
@@ -28,6 +27,9 @@ public class CommandProvider {
         commands.put(ParameterName.SEND_BOOK_COUNT, new SendBookCount());
         commands.put(ParameterName.SEARCH_READER_SURNAME, new SearchReader());
         commands.put(ParameterName.SEARCH_BOOK_NAME, new SearchBook());
+        commands.put(ParameterName.BOOK_RETURN, new BookReturnPage());
+        commands.put(ParameterName.SEND_ORDER, new SendOrder());
+        commands.put(ParameterName.CLOSE_ORDER, new CloseOrder());
     }
 
     public Command getCommand(String commandName) {

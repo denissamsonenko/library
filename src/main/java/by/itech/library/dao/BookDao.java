@@ -1,6 +1,6 @@
 package by.itech.library.dao;
 
-import by.itech.library.model.Book;
+import by.itech.library.model.dto.Book;
 import by.itech.library.model.Genre;
 import by.itech.library.model.dto.BookDto;
 import by.itech.library.model.dto.BookSearchDto;

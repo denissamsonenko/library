@@ -4,8 +4,10 @@ import by.itech.library.dao.BookDao;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.pool.PoolConnection;
 import by.itech.library.model.*;
+import by.itech.library.model.dto.Book;
 import by.itech.library.model.dto.BookDto;
 import by.itech.library.model.dto.BookSearchDto;
+import by.itech.library.model.CopyBook;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -7,6 +7,7 @@ public enum ParameterName {
     ORDER_PAGE,
     BOOK_ADD_PAGE,
     CREATE_BOOK,
+    BOOK_RETURN,
     CREATE_READER,
     CREATE_ORDER,
     SEND_GENRES,
@@ -16,5 +17,7 @@ public enum ParameterName {
     SEND_COUNT_READER,
     SEND_BOOK_COUNT,
     SEARCH_READER_SURNAME,
-    SEARCH_BOOK_NAME
+    SEARCH_BOOK_NAME,
+    SEND_ORDER,
+    CLOSE_ORDER
 }

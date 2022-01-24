@@ -3,10 +3,9 @@ package by.itech.library.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
-public class Book implements Serializable {
+public class Books implements Serializable {
     private int bookId;
     private String nameRus;
     private String nameOrigin;
@@ -16,12 +15,8 @@ public class Book implements Serializable {
     private int quantity;
     private LocalDate registerDate;
     private int pageNumber;
-    private List<BookImage> bookImages;
-    private List<Author> authors;
-    private List<Genre> genres;
-    private List<CopyBook> copyBooks;
 
-    public Book() {
+    public Books() {
     }
 
     public int getBookId() {
@@ -96,66 +91,30 @@ public class Book implements Serializable {
         this.pageNumber = pageNumber;
     }
 
-    public List<BookImage> getBookImages() {
-        return bookImages;
-    }
-
-    public void setBookImages(List<BookImage> bookImages) {
-        this.bookImages = bookImages;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public List<CopyBook> getCopyBooks() {
-        return copyBooks;
-    }
-
-    public void setCopyBooks(List<CopyBook> copyBooks) {
-        this.copyBooks = copyBooks;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return bookId == book.bookId &&
-                quantity == book.quantity &&
-                pageNumber == book.pageNumber &&
-                Objects.equals(nameRus, book.nameRus) &&
-                Objects.equals(nameOrigin, book.nameOrigin) &&
-                Objects.equals(publishDate, book.publishDate) &&
-                Objects.equals(price, book.price) &&
-                Objects.equals(pricePerDay, book.pricePerDay) &&
-                Objects.equals(registerDate, book.registerDate) &&
-                Objects.equals(bookImages, book.bookImages) &&
-                Objects.equals(authors, book.authors) &&
-                Objects.equals(genres, book.genres) &&
-                Objects.equals(copyBooks, book.copyBooks);
+        Books books = (Books) o;
+        return bookId == books.bookId &&
+                quantity == books.quantity &&
+                pageNumber == books.pageNumber &&
+                Objects.equals(nameRus, books.nameRus) &&
+                Objects.equals(nameOrigin, books.nameOrigin) &&
+                Objects.equals(publishDate, books.publishDate) &&
+                Objects.equals(price, books.price) &&
+                Objects.equals(pricePerDay, books.pricePerDay) &&
+                Objects.equals(registerDate, books.registerDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, nameRus, nameOrigin, publishDate, price, pricePerDay, quantity, registerDate, pageNumber, bookImages, authors, genres, copyBooks);
+        return Objects.hash(bookId, nameRus, nameOrigin, publishDate, price, pricePerDay, quantity, registerDate, pageNumber);
     }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Books{" +
                 "bookId=" + bookId +
                 ", nameRus='" + nameRus + '\'' +
                 ", nameOrigin='" + nameOrigin + '\'' +
@@ -165,10 +124,6 @@ public class Book implements Serializable {
                 ", quantity=" + quantity +
                 ", registerDate=" + registerDate +
                 ", pageNumber=" + pageNumber +
-                ", bookImages=" + bookImages +
-                ", authors=" + authors +
-                ", genres=" + genres +
-                ", copyBooks=" + copyBooks +
                 '}';
     }
 }

@@ -11,7 +11,7 @@
                 <a href="controller?command=order_page" class="sidebar__link">Order book</a>
             </li>
             <li>
-                <a href="" class="sidebar__link">Receive book</a>
+                <a href="controller?command=book_return" class="sidebar__link">Receive book</a>
             </li>
         </ul>
     </nav>
