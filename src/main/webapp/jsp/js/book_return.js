@@ -21,7 +21,7 @@ function findOrder(e) {
 
 function renderAutocompleteOrder(data) {
     autocompleteBox.classList.add('active');
-    if (data) {
+    if (data.orders.idOrder !== 0 ) {
         const li = document.createElement('li');
         li.innerHTML = `Name: ${data.reader.name} surname: ${data.reader.surname}`;
         autocompleteBox.appendChild(li);

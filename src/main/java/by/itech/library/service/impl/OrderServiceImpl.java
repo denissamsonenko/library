@@ -32,8 +32,9 @@ public class OrderServiceImpl implements OrderService {
 
         try {
             order = orderDao.getOrder(email);
-            calculateTotalPrice(order);
-
+            if(order.getOrders().getIdOrder() != 0) {
+                calculateTotalPrice(order);
+            }
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
