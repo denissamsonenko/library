@@ -3,9 +3,11 @@ const inputSearch = document.querySelector('#order');
 const autocompleteBox = document.querySelector(".autocomplete__box");
 const error = document.querySelector('.error');
 const orderInput = document.querySelector('.order__input');
-const bookInput = document.querySelector('.order__input')
+const bookInput = document.querySelector('.order__input');
+const form = document.querySelector('form');
 
 button.addEventListener('click', findOrder);
+form.addEventListener('submit', closeOrder);
 
 function findOrder(e) {
     e.preventDefault();
@@ -21,7 +23,7 @@ function findOrder(e) {
 
 function renderAutocompleteOrder(data) {
     autocompleteBox.classList.add('active');
-    if (data.orders.idOrder !== 0 ) {
+    if (data.orders.idOrder !== 0) {
         const li = document.createElement('li');
         li.innerHTML = `Name: ${data.reader.name} surname: ${data.reader.surname}`;
         autocompleteBox.appendChild(li);
@@ -38,7 +40,7 @@ function renderAutocompleteOrder(data) {
 }
 
 function fillOrders(data) {
-    orderInput.innerHTML='';
+    orderInput.innerHTML = '';
     bookInput.innerHTML = '';
     const order = `
                    <div class="personal__detail">
@@ -66,8 +68,7 @@ function fillOrders(data) {
     for (let book of data.bookCopyDto) {
         const bookHtml = `
                         <div class="book__details">
-                        <h4><span>Book name: </span>${book.nameRus}</h4>
-                        <input type="hidden" name="idBook" id="idBook" value="${book.id}" class="input">
+                        <input type="hidden" name="idBook" id="idBook" value="${book.copyBooks.id}" class="input">
                         <div>
                               <label for="notes" class="label">Notes</label>
                               <textarea name="notes" id="notes" class="input"></textarea>
@@ -97,6 +98,22 @@ async function searchOrder(email) {
         }
     } catch
         (error) {
+        console.error(error.message)
+    }
+}
+
+async function closeOrder(e) {
+    e.preventDefault();
+    let formData = new FormData(form);
+    try {
+        const response = await fetch('http://localhost:8081/lib/controller?command=close_order', {
+            method: 'POST',
+            body: formData,
+        });
+        if (response.ok) {
+            return await response.text();
+        }
+    } catch (error) {
         console.error(error.message)
     }
 }

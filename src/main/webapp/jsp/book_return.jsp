@@ -38,13 +38,13 @@
                     <h2>Order data</h2>
                 </div>
                 <div class="form__order">
-                    <form method="post">
+                    <form method="post" action="controller">
                         <div class="order__input">
                         </div>
                         <div class="book__input">
                         </div>
                         <div>
-                            <button type="submit" class="button">Close order</button>
+                            <button type="submit" class="button" >Close order</button>
                         </div>
                     </form>
                 </div>
