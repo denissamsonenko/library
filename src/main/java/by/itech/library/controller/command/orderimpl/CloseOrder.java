@@ -6,6 +6,7 @@ import by.itech.library.model.NotesCopyBook;
 import by.itech.library.model.OrderStatus;
 import by.itech.library.model.Orders;
 import by.itech.library.service.OrderService;
+import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
 
 import javax.servlet.ServletException;
@@ -21,36 +22,59 @@ import java.util.List;
 import java.util.UUID;
 
 public class CloseOrder implements Command {
+    private static final String ID_ORDER_ATTR = "idOrder";
+    private static final String FEE_ATTR = "fee";
+    private static final String EXPIRE_DATE_ATTR = "expireDate";
+    private static final String TOTAL_PRICE_ATTR = "totalPrice";
+    private static final String NOTES_ATTR = "notes";
+    private static final String ID_BOOK_ATTR = "idBook";
+    private static final String FILE_COPY_ATTR = "fileCopy";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         OrderService orderService = ServiceProvider.getInstance().getOrderService();
 
         Orders orders = new Orders();
-        orders.setFine(new BigDecimal(request.getParameter("")));
-        orders.setDateExpire(LocalDate.parse(request.getParameter("")));
-        orders.setFine(new BigDecimal(request.getParameter("")));
-        orders.setFinishPrice(new BigDecimal(request.getParameter("")));
+        orders.setIdOrder(Integer.parseInt(request.getParameter(ID_ORDER_ATTR)));
+        orders.setFine(new BigDecimal(request.getParameter(FEE_ATTR)));
+        orders.setDateExpire(LocalDate.parse(request.getParameter(EXPIRE_DATE_ATTR)));
+        orders.setFinishPrice(new BigDecimal(request.getParameter(TOTAL_PRICE_ATTR)));
         orders.setOrderStatus(OrderStatus.COMPLETED);
 
-        List<CopyBookImg> copyBookImg = getCopyBookImg(request);
-        List<NotesCopyBook> notesCopy = getNotes(request);
+        String[] idBooks = request.getParameterValues(ID_BOOK_ATTR);
 
+        List<CopyBookImg> copyBookImg = getCopyBookImg(request, idBooks);
+        List<NotesCopyBook> notesCopy = getNotes(request, idBooks);
+
+        try {
+            orderService.closeOrder(orders, copyBookImg, notesCopy);
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
+//        catch (){
+//            response.setStatus();
+//            response.getWriter().write();
+//        }
     }
 
-    private List<NotesCopyBook> getNotes(HttpServletRequest request) {
+    private List<NotesCopyBook> getNotes(HttpServletRequest request, String[] idBooks) {
         List<NotesCopyBook> notesCopyBooks = new ArrayList<>();
-        for (String parameterValue : request.getParameterValues("")) {
+        for (String parameterValue : request.getParameterValues(NOTES_ATTR)) {
             NotesCopyBook notesCopyBook = new NotesCopyBook();
             notesCopyBook.setNote(parameterValue);
             notesCopyBooks.add(notesCopyBook);
         }
+
+        for (int i = 0; i < idBooks.length; i++) {
+            notesCopyBooks.get(i).setIdCopy(Integer.parseInt(idBooks[i]));
+        }
         return notesCopyBooks;
     }
 
-    private List<CopyBookImg> getCopyBookImg(HttpServletRequest request) throws IOException, ServletException {
+    private List<CopyBookImg> getCopyBookImg(HttpServletRequest request, String[] idBooks) throws IOException, ServletException {
         List<CopyBookImg> img = new ArrayList<>();
         for (Part part : request.getParts()) {
-            if (part.getName().equals("")) {
+            if (part.getName().equals(FILE_COPY_ATTR)) {
                 if (!part.getSubmittedFileName().isEmpty()) {
                     CopyBookImg copyBookImg = new CopyBookImg();
                     String name = UUID.randomUUID().toString() + "." + part.getSubmittedFileName().trim().replace(" ", "");
@@ -62,6 +86,10 @@ public class CloseOrder implements Command {
                     CopyBookImg copyBookImg = new CopyBookImg();
                     copyBookImg.setName(part.getSubmittedFileName());
                     img.add(copyBookImg);
+                }
+
+                for (int i = 0; i < idBooks.length; i++) {
+                    img.get(i).setIdCopy(Integer.parseInt(idBooks[i]));
                 }
             }
         }

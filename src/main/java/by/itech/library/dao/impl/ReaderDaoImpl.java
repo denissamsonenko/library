@@ -16,9 +16,13 @@ public class ReaderDaoImpl implements ReaderDao {
 
     private static final String CREATE_READER = "INSERT INTO readers " +
             "(name, surname, middle_name, passport, birth_date, email, address ) values (initcap(?),initcap(?),initcap(?),UPPER(?),?,UPPER(?),?)";
+
     private static final String GET_ALL_EMAIL = "SELECT email FROM readers";
+
     private static final String GET_ALL_READER = "SELECT id_reader, name, surname, birth_date, email, address FROM readers ORDER BY surname";
+
     private static final String GET_ALL_READER_COUNT = "SELECT count(id_reader) FROM readers";
+
     private static final String SEARCH_READER_BY_SURNAME = "SELECT r.id_reader as id_reader, name, surname, email, status FROM readers r left join orders o on(r.id_reader=o.id_reader) WHERE surname like initcap(?)||'%'";
 
     @Override

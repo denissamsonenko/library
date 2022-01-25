@@ -21,10 +21,11 @@ public class BookServiceImpl implements BookService {
 
         try {
             if (ValidateBook.isCorrect(book)) {
-                bookDao.createBook(book);
+                throw new ServiceException("Invalid");
             }
+            bookDao.createBook(book);
         } catch (DaoException e) {
-            throw new ServiceException("Invalid book, check field");
+            throw new ServiceException(e);
         }
     }
 

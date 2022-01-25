@@ -164,19 +164,55 @@ public class OrderDaoImpl implements OrderDao {
     public void closeOrder(Orders orders, List<CopyBookImg> copyBookImg, List<NotesCopyBook> notesCopy) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
 
         try {
             con = pool.getConnection();
             con.setAutoCommit(false);
-            ps = con.prepareStatement("");
+            ps = con.prepareStatement(UPDATE_ORDER);
 
+            ps.setDate(1, Date.valueOf(orders.getDateExpire()));
+            ps.setBigDecimal(2, orders.getFinishPrice());
+            ps.setBigDecimal(3, orders.getFine());
+            ps.setString(4, String.valueOf(OrderStatus.COMPLETED));
+            ps.setInt(5, orders.getIdOrder());
+            ps.executeUpdate();
 
+            ps = con.prepareStatement(SAVE_NOTES);
+
+            for (NotesCopyBook notesCopyBook : notesCopy) {
+                if (!notesCopyBook.getNote().isEmpty()) {
+                    ps.setString(1, notesCopyBook.getNote());
+                    ps.setInt(2, notesCopyBook.getIdCopy());
+                    ps.executeUpdate();
+                }
+            }
+
+            ps = con.prepareStatement(SAVE_COPY_IMG);
+
+            for (CopyBookImg bookImg : copyBookImg) {
+                if (!bookImg.getName().isEmpty()) {
+                    ps.setString(1, bookImg.getName());
+                    ps.setInt(2, bookImg.getIdCopy());
+                    ps.setBinaryStream(3, bookImg.getImg());
+                    ps.executeUpdate();
+                }
+            }
+
+            ps = con.prepareStatement(UPDATE_BOOK_COPY_STATUS);
+
+            for (NotesCopyBook notesCopyBook : notesCopy) {
+                ps.setString(1, String.valueOf(Status.FREE));
+                ps.setInt(2, notesCopyBook.getIdCopy());
+                ps.executeUpdate();
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
             pool.rollback(con);
             throw new DaoException(e);
         } finally {
-            pool.closeConnection(con, ps, rs);
+            pool.closeConnection(con, ps);
         }
     }
 }

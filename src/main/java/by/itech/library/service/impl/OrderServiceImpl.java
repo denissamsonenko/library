@@ -3,6 +3,9 @@ package by.itech.library.service.impl;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.DaoProvider;
 import by.itech.library.dao.OrderDao;
+import by.itech.library.model.CopyBookImg;
+import by.itech.library.model.NotesCopyBook;
+import by.itech.library.model.Orders;
 import by.itech.library.model.dto.Order;
 import by.itech.library.model.dto.OrderDto;
 import by.itech.library.service.OrderService;
@@ -11,6 +14,7 @@ import by.itech.library.service.ServiceException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -32,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
         try {
             order = orderDao.getOrder(email);
-            if(order.getOrders().getIdOrder() != 0) {
+            if (order.getOrders().getIdOrder() != 0) {
                 calculateTotalPrice(order);
             }
         } catch (DaoException e) {
@@ -40,6 +44,16 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return order;
+    }
+
+    @Override
+    public void closeOrder(Orders orders, List<CopyBookImg> copyBookImg, List<NotesCopyBook> notesCopy) throws ServiceException {
+
+        try {
+            orderDao.closeOrder(orders, copyBookImg, notesCopy);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     private void calculateTotalPrice(OrderDto orderDto) {
