@@ -91,10 +91,8 @@
     }
 
     async function searchOrder(email) {
-
         try {
-            const response = await fetch(`
-    http://localhost:8081/lib/controller?command=send_order&email=${email}`);
+            const response = await fetch(`http://localhost:8081/lib/controller?command=send_order&email=${email}`);
             if (response.ok) {
                 return await response.json();
             }
@@ -119,4 +117,4 @@
             console.error(error.message)
         }
     }
-})
+})()
