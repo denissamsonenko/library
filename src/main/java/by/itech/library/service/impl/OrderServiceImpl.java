@@ -3,7 +3,6 @@ package by.itech.library.service.impl;
 import by.itech.library.dao.DaoException;
 import by.itech.library.dao.DaoProvider;
 import by.itech.library.dao.OrderDao;
-import by.itech.library.model.dto.BookCopyDto;
 import by.itech.library.model.dto.Order;
 import by.itech.library.model.dto.OrderDto;
 import by.itech.library.service.OrderService;
@@ -12,9 +11,7 @@ import by.itech.library.service.ServiceException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.Period;
 
-import static java.math.BigDecimal.ROUND_HALF_UP;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class OrderServiceImpl implements OrderService {

@@ -136,10 +136,44 @@ ul {
     margin: 15px 0px;
 }
 
+.content__search_button {
+    width: 400px;
+    flex-grow: 1;
+    margin: 15px 0px;
+    align-self: end;
+}
+
 .content__search_date {
     width: 200px;
     flex-grow: 1;
     margin: 15px 0px;
+}
+
+.content__search {
+    margin-left: 15px;
+}
+
+.content__search_box {
+    width: 500px;
+    flex-grow: 1;
+    margin: 15px 0px;
+}
+
+.order__input .book__input {
+    display: flex;
+    flex-direction: column;
+}
+
+.personal__detail {
+    margin: 20px 0px;
+}
+
+.content__generate {
+    margin-bottom: 20px;
+}
+
+.book__details {
+    padding: 10px 10px 10px 0px;
 }
 
 .search__input {

@@ -1,0 +1,42 @@
+@media print {
+    button {
+        display: none;
+    }
+
+    html, body {
+        height: 297mm;
+        width: 210mm;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    tbody td {
+        text-align: center;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: rgba(64, 64, 69, 0.84);
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #312c31;
+    }
+
+    th {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    td, th {
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    input, textarea {
+        outline: none;
+        border: none;
+    }
+}
