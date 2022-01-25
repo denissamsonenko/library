@@ -27,7 +27,6 @@ public class SendGenres implements Command {
 
         String json = new ObjectMapper().writeValueAsString(genres);
 
-//        response.setHeader("Access-Control-Allow-Origin", "*");
         response.getWriter().write(json);
     }
 }

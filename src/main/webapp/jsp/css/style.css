@@ -173,7 +173,7 @@ ul {
 }
 
 .book__details {
-    padding: 10px 10px 10px 0px;
+    padding: 20px 10px 20px 0px;
 }
 
 .search__input {
@@ -324,6 +324,10 @@ ul {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
+}
+
+h3 {
+    margin: 10px;
 }
 
 /* Add animation (fade in the popup) */

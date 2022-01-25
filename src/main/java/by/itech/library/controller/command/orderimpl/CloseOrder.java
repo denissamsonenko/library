@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,10 +52,6 @@ public class CloseOrder implements Command {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-//        catch (){
-//            response.setStatus();
-//            response.getWriter().write();
-//        }
     }
 
     private List<NotesCopyBook> getNotes(HttpServletRequest request, String[] idBooks) {
@@ -73,6 +70,7 @@ public class CloseOrder implements Command {
 
     private List<CopyBookImg> getCopyBookImg(HttpServletRequest request, String[] idBooks) throws IOException, ServletException {
         List<CopyBookImg> img = new ArrayList<>();
+
         for (Part part : request.getParts()) {
             if (part.getName().equals(FILE_COPY_ATTR)) {
                 if (!part.getSubmittedFileName().isEmpty()) {
@@ -88,10 +86,10 @@ public class CloseOrder implements Command {
                     img.add(copyBookImg);
                 }
 
-                for (int i = 0; i < idBooks.length; i++) {
-                    img.get(i).setIdCopy(Integer.parseInt(idBooks[i]));
-                }
             }
+        }
+        for (int i = 0; i < idBooks.length; i++) {
+            img.get(i).setIdCopy(Integer.parseInt(idBooks[i]));
         }
         return img;
     }

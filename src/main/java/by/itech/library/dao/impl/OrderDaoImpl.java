@@ -173,7 +173,7 @@ public class OrderDaoImpl implements OrderDao {
             ps.setDate(1, Date.valueOf(orders.getDateExpire()));
             ps.setBigDecimal(2, orders.getFinishPrice());
             ps.setBigDecimal(3, orders.getFine());
-            ps.setString(4, String.valueOf(OrderStatus.COMPLETED));
+            ps.setString(4, String.valueOf(orders.getOrderStatus()));
             ps.setInt(5, orders.getIdOrder());
             ps.executeUpdate();
 

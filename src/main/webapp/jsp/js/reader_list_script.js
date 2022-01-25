@@ -85,7 +85,7 @@
         this.innerHTML = '';
         let td = document.createElement('td');
         if (!text) {
-            td.innerHTML = 'undefined';
+            td.innerHTML = 'none';
         } else {
             td.innerHTML = text;
         }

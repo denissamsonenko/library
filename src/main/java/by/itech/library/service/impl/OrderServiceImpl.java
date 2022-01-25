@@ -6,6 +6,7 @@ import by.itech.library.dao.OrderDao;
 import by.itech.library.model.CopyBookImg;
 import by.itech.library.model.NotesCopyBook;
 import by.itech.library.model.Orders;
+import by.itech.library.model.dto.BookCopyDto;
 import by.itech.library.model.dto.Order;
 import by.itech.library.model.dto.OrderDto;
 import by.itech.library.service.OrderService;
@@ -48,7 +49,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void closeOrder(Orders orders, List<CopyBookImg> copyBookImg, List<NotesCopyBook> notesCopy) throws ServiceException {
-
         try {
             orderDao.closeOrder(orders, copyBookImg, notesCopy);
         } catch (DaoException e) {
@@ -59,15 +59,34 @@ public class OrderServiceImpl implements OrderService {
     private void calculateTotalPrice(OrderDto orderDto) {
         LocalDate localDateToday = LocalDate.now();
         LocalDate dateReturn = orderDto.getOrders().getDateReturn();
+        LocalDate dateIssue = orderDto.getOrders().getDateIssue();
+        long period = DAYS.between(dateIssue, localDateToday);
+        BigDecimal discount = BigDecimal.valueOf(orderDto.getOrders().getDiscount());
 
         if (localDateToday.isEqual(dateReturn) || localDateToday.isBefore(dateReturn)) {
-            BigDecimal advancePrice = orderDto.getOrders().getAdvancePrice();
-            orderDto.getOrders().setFinishPrice(advancePrice);
+
+            BigDecimal priceWithoutDiscount = BigDecimal.ZERO;
+
+            for (BookCopyDto bookCopyDto : orderDto.getBookCopyDto()) {
+                BigDecimal pricePerDay = bookCopyDto.getPricePerDay();
+                priceWithoutDiscount = priceWithoutDiscount
+                        .add(pricePerDay.multiply(BigDecimal.valueOf(period)));
+            }
+
+            BigDecimal discountPrice = priceWithoutDiscount
+                    .multiply(discount)
+                    .divide(BigDecimal.valueOf(100.00), RoundingMode.HALF_UP)
+                    .setScale(2, RoundingMode.HALF_UP);
+
+            BigDecimal totalPrice = discountPrice
+                    .add(priceWithoutDiscount)
+                    .setScale(2, RoundingMode.HALF_UP);
+
+            orderDto.getOrders().setFinishPrice(totalPrice);
             orderDto.getOrders().setDateExpire(localDateToday);
             orderDto.getOrders().setFine(BigDecimal.ZERO);
         } else {
             BigDecimal priceByTerm = orderDto.getOrders().getAdvancePrice();
-
             long overdueDays = DAYS.between(dateReturn, localDateToday);
 
             BigDecimal fee = priceByTerm.multiply(BigDecimal.valueOf(0.01))
