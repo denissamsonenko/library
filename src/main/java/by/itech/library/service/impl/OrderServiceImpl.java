@@ -62,7 +62,6 @@ public class OrderServiceImpl implements OrderService {
         LocalDate dateIssue = orderDto.getOrders().getDateIssue();
         BigDecimal priceByTerm = orderDto.getOrders().getAdvancePrice();
         long period = DAYS.between(dateIssue, localDateToday);
-        BigDecimal discount = BigDecimal.valueOf(orderDto.getOrders().getDiscount());
 
 
         if (localDateToday.isBefore(dateReturn)) {
@@ -74,10 +73,14 @@ public class OrderServiceImpl implements OrderService {
                         .add(pricePerDay.multiply(BigDecimal.valueOf(period)));
             }
 
-            BigDecimal discountPrice = priceWithoutDiscount
-                    .multiply(discount)
-                    .divide(BigDecimal.valueOf(100.00), RoundingMode.HALF_UP)
-                    .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal discountPrice = BigDecimal.ZERO;
+            if (orderDto.getOrders().getDiscount() != 0) {
+                BigDecimal discount = BigDecimal.valueOf(orderDto.getOrders().getDiscount());
+                discountPrice = priceWithoutDiscount
+                        .multiply(discount)
+                        .divide(BigDecimal.valueOf(100.00), RoundingMode.HALF_UP)
+                        .setScale(2, RoundingMode.HALF_UP);
+            }
 
             BigDecimal totalPrice = discountPrice
                     .add(priceWithoutDiscount)
