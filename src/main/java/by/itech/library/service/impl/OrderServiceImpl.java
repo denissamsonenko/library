@@ -63,8 +63,8 @@ public class OrderServiceImpl implements OrderService {
         long period = DAYS.between(dateIssue, localDateToday);
         BigDecimal discount = BigDecimal.valueOf(orderDto.getOrders().getDiscount());
 
-        if (localDateToday.isEqual(dateReturn) || localDateToday.isBefore(dateReturn)) {
 
+        if (localDateToday.isBefore(dateReturn)) {
             BigDecimal priceWithoutDiscount = BigDecimal.ZERO;
 
             for (BookCopyDto bookCopyDto : orderDto.getBookCopyDto()) {
@@ -83,6 +83,11 @@ public class OrderServiceImpl implements OrderService {
                     .setScale(2, RoundingMode.HALF_UP);
 
             orderDto.getOrders().setFinishPrice(totalPrice);
+            orderDto.getOrders().setDateExpire(localDateToday);
+            orderDto.getOrders().setFine(BigDecimal.ZERO);
+        } else if (localDateToday.isEqual(dateReturn)) {
+            BigDecimal price = orderDto.getOrders().getAdvancePrice();
+            orderDto.getOrders().setFinishPrice(price);
             orderDto.getOrders().setDateExpire(localDateToday);
             orderDto.getOrders().setFine(BigDecimal.ZERO);
         } else {
