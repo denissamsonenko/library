@@ -111,6 +111,7 @@
                 body: formData,
             });
             if (response.ok) {
+                orderInput.innerHTML = '';
                 return await response.text();
             }
         } catch (error) {
