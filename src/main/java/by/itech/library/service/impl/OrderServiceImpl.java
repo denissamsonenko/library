@@ -60,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDate localDateToday = LocalDate.now();
         LocalDate dateReturn = orderDto.getOrders().getDateReturn();
         LocalDate dateIssue = orderDto.getOrders().getDateIssue();
+        BigDecimal priceByTerm = orderDto.getOrders().getAdvancePrice();
         long period = DAYS.between(dateIssue, localDateToday);
         BigDecimal discount = BigDecimal.valueOf(orderDto.getOrders().getDiscount());
 
@@ -86,12 +87,10 @@ public class OrderServiceImpl implements OrderService {
             orderDto.getOrders().setDateExpire(localDateToday);
             orderDto.getOrders().setFine(BigDecimal.ZERO);
         } else if (localDateToday.isEqual(dateReturn)) {
-            BigDecimal price = orderDto.getOrders().getAdvancePrice();
-            orderDto.getOrders().setFinishPrice(price);
+            orderDto.getOrders().setFinishPrice(priceByTerm);
             orderDto.getOrders().setDateExpire(localDateToday);
             orderDto.getOrders().setFine(BigDecimal.ZERO);
         } else {
-            BigDecimal priceByTerm = orderDto.getOrders().getAdvancePrice();
             long overdueDays = DAYS.between(dateReturn, localDateToday);
 
             BigDecimal fee = priceByTerm.multiply(BigDecimal.valueOf(0.01))
