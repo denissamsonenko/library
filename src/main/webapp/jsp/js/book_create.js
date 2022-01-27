@@ -103,15 +103,6 @@
                             error++;
                         }
                         break;
-                    case 'publishDate':
-                        if(input.value){
-                            if(input.value.length !== 4){
-                                text = 'You should check publish year';
-                                formAddError(input, text);
-                                error++;
-                            }
-                        }
-                        break;
                 }
             }
         }
@@ -190,13 +181,15 @@
                 const text = await response.text();
                 if (response.ok) {
                     popupOpen(text);
-                } else {
+                    form.reset()
+                } else if (response.status === 400) {
                     popupOpen(text);
+                } else if(response.status >= 500){
+                    const message = "Server error respond to administrator";
+                    popupOpen(message);
                 }
             } catch (error) {
                 console.error(error.message)
-            } finally {
-                form.reset()
             }
         }
     }

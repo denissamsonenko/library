@@ -20,7 +20,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void createBook(Book book) throws ServiceException, ValidationException {
         if (!ValidateBook.isCorrect(book)) {
-            throw new ValidationException("Invalid");
+            throw new ValidationException("Invalid data");
         }
 
         try {
