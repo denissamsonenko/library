@@ -82,8 +82,8 @@ public class OrderServiceImpl implements OrderService {
                         .setScale(2, RoundingMode.HALF_UP);
             }
 
-            BigDecimal totalPrice = discountPrice
-                    .add(priceWithoutDiscount)
+            BigDecimal totalPrice = priceWithoutDiscount
+                    .subtract(discountPrice)
                     .setScale(2, RoundingMode.HALF_UP);
 
             orderDto.getOrders().setFinishPrice(totalPrice);
