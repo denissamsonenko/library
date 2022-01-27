@@ -8,7 +8,7 @@ import by.itech.library.model.dto.BookCopyDto;
 import java.util.List;
 
 public interface BookService {
-    void createBook(Book book) throws ServiceException;
+    void createBook(Book book) throws ServiceException, ValidationException;
 
     List<Genre> getAllGenre() throws ServiceException;
 

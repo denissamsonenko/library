@@ -10,6 +10,7 @@ import by.itech.library.model.dto.BookDto;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.Validation.ValidateBook;
+import by.itech.library.service.ValidationException;
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ public class BookServiceImpl implements BookService {
     private final BookDao bookDao = DaoProvider.getInstance().getBookDao();
 
     @Override
-    public void createBook(Book book) throws ServiceException {
+    public void createBook(Book book) throws ServiceException, ValidationException {
+        if (!ValidateBook.isCorrect(book)) {
+            throw new ValidationException("Invalid");
+        }
 
         try {
-            if (ValidateBook.isCorrect(book)) {
-                throw new ServiceException("Invalid");
-            }
             bookDao.createBook(book);
         } catch (DaoException e) {
             throw new ServiceException(e);

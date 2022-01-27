@@ -6,6 +6,7 @@ import by.itech.library.model.dto.Book;
 import by.itech.library.service.BookService;
 import by.itech.library.service.ServiceException;
 import by.itech.library.service.ServiceProvider;
+import by.itech.library.service.ValidationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ public class CreateBook implements Command {
     private static final String AUTHORS_ATTR = "authors";
     private static final String FILE_AUTHOR_ATTR = "fileAuthor";
     private static final String FILE_ATTR_IMG = "file";
+    public static final String BOOK_SAVED_RESPONSE = "Book successfully saved";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -62,8 +64,12 @@ public class CreateBook implements Command {
 
         try {
             bookService.createBook(book);
+            response.getWriter().write(BOOK_SAVED_RESPONSE);
         } catch (ServiceException e) {
             throw new ServletException(e);
+        } catch (ValidationException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write(e.getMessage());
         }
     }
 

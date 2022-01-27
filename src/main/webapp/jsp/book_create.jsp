@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="wrapper">
+    <jsp:include page="parts/popup.jsp"/>
     <jsp:include page="parts/header.jsp"/>
     <main class="main">
         <jsp:include page="parts/sidebar.jsp"/>
@@ -56,6 +57,7 @@
                             <label for="publishDate" class="label">Publish year</label>
                             <input type="number" id="publishDate" name="publishDate" min="1900" max="2099" step="1"
                                    placeholder="2016" class="input">
+                            <span class="error"></span>
                         </div>
                         <div>
                             <label for="fileBook" class="label">Book images*</label>

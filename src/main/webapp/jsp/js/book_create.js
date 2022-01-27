@@ -5,7 +5,10 @@
     const fileAuthor = document.querySelector('.file__item._author');
     const authorForm = document.querySelector('.author__form');
     const form = document.querySelector('form');
+    const popupName = document.querySelector('.popup');
+    const popupCloseIcon = document.querySelector('.popup__close');
 
+    popupCloseIcon.addEventListener('click', popupClose)
     document.addEventListener('DOMContentLoaded', init);
     spanPlus.addEventListener('click', addAuthorField);
     form.addEventListener('submit', sendBooks);
@@ -100,6 +103,15 @@
                             error++;
                         }
                         break;
+                    case 'publishDate':
+                        if(input.value){
+                            if(input.value.length !== 4){
+                                text = 'You should check publish year';
+                                formAddError(input, text);
+                                error++;
+                            }
+                        }
+                        break;
                 }
             }
         }
@@ -175,6 +187,12 @@
                     method: 'POST',
                     body: formData,
                 });
+                const text = await response.text();
+                if (response.ok) {
+                    popupOpen(text);
+                } else {
+                    popupOpen(text);
+                }
             } catch (error) {
                 console.error(error.message)
             } finally {
@@ -183,4 +201,14 @@
         }
     }
 
+    function popupOpen(text) {
+        popupName.querySelector('.popup__text').innerText = text;
+        popupName.classList.add('open');
+    }
+
+    function popupClose(e) {
+        popupName.classList.remove('open');
+        popupName.querySelector('.popup__text').innerHTML = '';
+        e.preventDefault();
+    }
 })()
